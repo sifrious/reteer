@@ -1,5 +1,6 @@
 <?php
 
+use Google\Client;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
 
@@ -17,3 +18,10 @@ use Illuminate\Support\Facades\Artisan;
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->purpose('Display an inspiring quote');
+
+Artisan::command('app:get-sheet', function () {
+    $client = new Client();
+    $client->setApplicationName("reteer-app");
+    $client->setScopes('https://www.googleapis.com/auth/spreadsheets');
+    $client->setAuthConfig("credentials.json");
+});
