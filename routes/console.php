@@ -6,6 +6,7 @@ use Google\Service\Sheets;
 use Google\Service\Sheets\Spreadsheet;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
+use Filament\Notifications\Collection;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,9 +36,17 @@ Artisan::command('app:get-sheet', function () {
 
     Task::truncate();
 
-    collect($rawData)
-        ->skip(2) // remove header columns
-        ->map(fn (array $item) => $item[6]) //flatten array
+    $header = collect($rawData[1])
+        ->map(fn (string $item) => clean_header($item));
+    $data = collect($rawData)
+        ->skip(2)
+        ->map(function (array $item) {
+                try {
+                    return $item[6];
+                } catch (Exception) {
+                    return "New undefined task from spreadsheet";
+                };
+            })
         ->each(function (string $taskName) { //commit to db
             Task::create([
                 'name' => $taskName,
