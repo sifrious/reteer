@@ -33,6 +33,8 @@ Artisan::command('app:get-sheet', function () {
     
     $rawData = $spreadsheetValues->get('1kFZ2P8MTvc6pMOEc84-fQXtGMMvdBZZhKm1g-F87wnI', 'Logs')->getValues();
 
+    Task::truncate();
+
     collect($rawData)
         ->skip(2) // remove header columns
         ->map(fn (array $item) => $item[6]) //flatten array
