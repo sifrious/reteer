@@ -30,5 +30,9 @@ Artisan::command('app:get-sheet', function () {
     $spreadsheet = new Sheets($client);
     $spreadsheetValues = $spreadsheet->spreadsheets_values;
     
-    dd($spreadsheetValues->get('1kFZ2P8MTvc6pMOEc84-fQXtGMMvdBZZhKm1g-F87wnI', 'Logs')->getValues());
+    $rawData = $spreadsheetValues->get('1kFZ2P8MTvc6pMOEc84-fQXtGMMvdBZZhKm1g-F87wnI', 'Logs')->getValues();
+    $data = collect($rawData)->skip(2)->map(function (array $item) {
+        return $item[6];
+    })->dd(); // remove header rows
 });
+
