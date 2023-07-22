@@ -40,7 +40,7 @@ Artisan::command('app:get-sheet', function () {
         ->map(fn (array $item) => $item[6]) //flatten array
         ->each(function (string $taskName) { //commit to db
             Task::create([
-                'name' => $taskName
+                'name' => $taskName,
             ]);
         });
 });

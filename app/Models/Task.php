@@ -9,4 +9,7 @@ class Task extends Model
 {
     use HasFactory;
     protected $fillable = ['name'];
+    protected $attributes = [
+        'public' => false,
+    ];
 }
