@@ -25,6 +25,7 @@ class TaskResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('name')
                     ->required(),
+                Forms\Components\Toggle::make('public'),
             ]);
     }
 

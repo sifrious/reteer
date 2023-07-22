@@ -41,6 +41,7 @@ Artisan::command('app:get-sheet', function () {
         ->each(function (string $taskName) { //commit to db
             Task::create([
                 'name' => $taskName,
+                'public' => false,
             ]);
         });
 });
