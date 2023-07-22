@@ -23,10 +23,12 @@ Artisan::command('inspire', function () {
 
 Artisan::command('app:get-sheet', function () {
     $client = new Client();
-    $client->setApplicationName("reteer-app");
+    $client->setApplicationName('reteer-app');
     $client->setScopes('https://www.googleapis.com/auth/spreadsheets');
-    $client->setAuthConfig("credentials.json");
+    $client->setAuthConfig('credentials.json');
+
     $spreadsheet = new Sheets($client);
-    $spreadsheet_values = $spreadsheet->spreadsheets_values;
-    dd($spreadsheet_values->get('1kFZ2P8MTvc6pMOEc84-fQXtGMMvdBZZhKm1g-F87wnI', 'Logs')->getValues());
+    $spreadsheetValues = $spreadsheet->spreadsheets_values;
+    
+    dd($spreadsheetValues->get('1kFZ2P8MTvc6pMOEc84-fQXtGMMvdBZZhKm1g-F87wnI', 'Logs')->getValues());
 });
