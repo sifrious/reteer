@@ -12,22 +12,4 @@ function clean_header(string $item) {
     };
     return $item;
 };
-
-function normalize_array_length(array $array, int $full_length) {
-    if (count($array) < $full_length) {
-        while (count($array) < $full_length + 1) {
-            array_push($array, "");
-        }
-        return $array;
-    };
-    return $array;
-};
-
-function normalize_nested_array_length(array $nested_array, int $target_length) {
-    $normalized_array = [];
-    foreach($nested_array as $array) {
-        array_push($normalized_array, normalize_array_length($array, $target_length));
-    };
-    return $normalized_array;
-};
 ?>
