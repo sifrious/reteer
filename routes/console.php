@@ -23,32 +23,6 @@ Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->purpose('Display an inspiring quote');
 
-Artisan::command('app:get-sheet', function () {
-    $client = new Client();
-    $client->setApplicationName('reteer-app');
-    $client->setScopes('https://www.googleapis.com/auth/spreadsheets');
-    $client->setAuthConfig('credentials.json');
-
-    $spreadsheet = new Sheets($client);
-    $spreadsheetValues = $spreadsheet->spreadsheets_values;
-    
-    $rawData = $spreadsheetValues->get('1kFZ2P8MTvc6pMOEc84-fQXtGMMvdBZZhKm1g-F87wnI', 'Logs')->getValues();
-
-    Task::truncate();
-
-    $header = collect($rawData[1])
-        ->map(fn (string $item) => str($item)->lower()->replace(["(", ")", "*"], '')->replace([" ", "\n", "__"], "_")->toString())->dd();
-    $data = collect($rawData)
-        ->skip(2)
-        ->map(fn (array $item) => $item[6] ?? '')
-        ->each(function (string $taskName) { //commit to db
-            Task::create([
-                'name' => $taskName,
-                'public' => false,
-            ]);
-        });
-});
-
 Artisan::command('app:test', function () {
     return null;
 });

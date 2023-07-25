@@ -31,4 +31,9 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'sheets' => [
+        'document_id' => env('GOOGLE_SPREADSHEET_ID'), 
+        'sheet_name' => env('GOOGLE_SHEET_NAME') 
+    ],
+
 ];
