@@ -37,7 +37,7 @@ Artisan::command('app:get-sheet', function () {
     Task::truncate();
 
     $header = collect($rawData[1])
-        ->map(fn (string $item) => clean_header($item));
+        ->map(fn (string $item) => str($item)->lower()->replace(["(", ")", "*"], '')->replace([" ", "\n", "__"], "_")->toString())->dd();
     $data = collect($rawData)
         ->skip(2)
         ->map(fn (array $item) => $item[6] ?? '')
@@ -49,3 +49,6 @@ Artisan::command('app:get-sheet', function () {
         });
 });
 
+Artisan::command('app:test', function () {
+    return null;
+});

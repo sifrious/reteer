@@ -1,15 +1,10 @@
 <?php
 
+use Illuminate\Support\Str;
 use Filament\Notifications\Collection;
+use Illuminate\Support\Facades\Cache;
 
-function clean_header(string $item) {
-    $item = strtolower($item);
-    $counter = 0;
-    foreach(["(", ")", "*", " ", "\n", "__"] as $restricted_character) {
-        $new_charachter = ($counter > 2) ? "_":"";
-        $item = str_replace($restricted_character, $new_charachter, $item);
-        $counter += 1;
-    };
-    return $item;
+function clean_header(string $item): string {
+    return str($item)->lower()->replace(["(", ")", "*"], '')->replace([" ", "\n", "__"], "_");
 };
 ?>
