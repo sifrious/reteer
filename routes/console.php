@@ -40,13 +40,7 @@ Artisan::command('app:get-sheet', function () {
         ->map(fn (string $item) => clean_header($item));
     $data = collect($rawData)
         ->skip(2)
-        ->map(function (array $item) {
-                try {
-                    return $item[6];
-                } catch (Exception) {
-                    return "New undefined task from spreadsheet";
-                };
-            })
+        ->map(fn (array $item) => $item[6] ?? '')
         ->each(function (string $taskName) { //commit to db
             Task::create([
                 'name' => $taskName,
