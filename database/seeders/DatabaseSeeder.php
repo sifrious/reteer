@@ -19,5 +19,11 @@ class DatabaseSeeder extends Seeder
             'email' => 'mmebit@icloud.com',
             'password' => bcrypt('football'),
         ]);
+
+        User::create([
+            'name' => 'John', 
+            'email' => 'johndoe@google.com',
+            'password' => bcrypt('footballisgreat'),
+        ]);
     }
 }
