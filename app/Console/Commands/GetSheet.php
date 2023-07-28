@@ -30,7 +30,6 @@ class GetSheet extends Command
      */
     public function handle()
     {
-        //
         $client = new Client();
         $client->setApplicationName('reteer-app');
         $client->setScopes('https://www.googleapis.com/auth/spreadsheets');
@@ -42,18 +41,11 @@ class GetSheet extends Command
         $rawData = $spreadsheetValues->get('1kFZ2P8MTvc6pMOEc84-fQXtGMMvdBZZhKm1g-F87wnI', 'Logs')->getValues();
 
         Task::truncate();
-
-        $header = Arr::map($rawData[1], function (string $item) {
-            return str($item)->lower()
-                ->replace(["(", ")", "*"], '')
-                ->replace([" ", "\n", "__"], "_")
-                ->toString();
-        });
             
-        $data = collect($rawData)
+        collect($rawData)
             ->skip(2)
             ->map(fn (array $item) => $item[6] ?? '')
-            ->each(function (string $taskName) { //commit to db
+            ->each(function (string $taskName) {
                 Task::create([
                     'name' => $taskName,
                     'public' => false,
@@ -61,9 +53,3 @@ class GetSheet extends Command
             });
     }
 }
-
-/*
-Artisan::command('app:get-sheet', function () {
-    
-});
-*/
