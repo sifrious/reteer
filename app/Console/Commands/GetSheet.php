@@ -45,6 +45,7 @@ class GetSheet extends Command
         collect($rawData)
             ->skip(2)
             ->map(fn (array $item) => $item[6] ?? '')
+            ->filter()
             ->each(function (string $taskName) {
                 Task::create([
                     'name' => $taskName,
