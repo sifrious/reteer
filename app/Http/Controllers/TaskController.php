@@ -9,9 +9,9 @@ class TaskController extends Controller
 {
     public function index(Request $request)
     {
-        $tasks = Task::all();
         return view('tasks.index', [
-            'tasks' => $tasks
+            'tasks' => Task::all(),
+            'count' => Task::count(),
         ]);
     }
 }
