@@ -37,18 +37,21 @@ class GetSheet extends Command
 
         $spreadsheet = new Sheets($client);
         $spreadsheetValues = $spreadsheet->spreadsheets_values;
-        
+
         $rawData = $spreadsheetValues->get('1kFZ2P8MTvc6pMOEc84-fQXtGMMvdBZZhKm1g-F87wnI', 'Logs')->getValues();
 
         Task::truncate();
-            
+
         collect($rawData)
             ->skip(2)
-            ->map(fn (array $item) => $item[6] ?? '')
-            ->filter()
-            ->each(function (string $taskName) {
+            ->filter(function (array $row) {
+                return $row[6] ?? '' != '';
+            })
+            ->each(function (array $taskInfo) {
                 Task::create([
-                    'name' => $taskName,
+                    'start_date' => $taskInfo[2],
+                    'start_time' => $taskInfo[3],
+                    'name' => $taskInfo[6],
                     'public' => false,
                 ]);
             });
