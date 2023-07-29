@@ -19,6 +19,13 @@
             @foreach ($tasks as $task)
                 <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900 dark:text-gray-100">
+                        <div>
+                            @if ($task->start_date != '')
+                                <span>{{ $task->start_date }}</span>
+                                <span>@</span>
+                                <span>{{ $task->start_time }}</span>
+                            @endif
+                        </div>
                         {{ $task->name }}
                     </div>
                 </div>
