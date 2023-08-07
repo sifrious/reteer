@@ -37,6 +37,7 @@ class User extends Authenticatable implements FilamentUser
 
     /**
      * The attributes that should be cast.
+     * This is a comment!
      *
      * @var array<string, string>
      */
