@@ -22,7 +22,3 @@ use Filament\Notifications\Collection;
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->purpose('Display an inspiring quote');
-
-Artisan::command('app:test', function () {
-    return null;
-});

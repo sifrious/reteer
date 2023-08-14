@@ -1,19 +1,30 @@
 <?php
 
 
-namespace App\SheetsAPI\SheetsImport; // <- important
+namespace App\SheetsAPI; // <- important
 
 use Google\Client;
 use App\Models\Task;
 use Google\Service\Sheets;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 
 class SheetsImport
 {
-    /**
-     * Execute the console command.
-     */
-    public function handleBatch()
+    private $sheetName;
+    private $rawSheetData;
+    private $header;
+    private $rowsArray;
+
+    public function __construct($sheetName)
+    {
+        $this->sheetName = $sheetName;
+        $this->rawSheetData = $this->importRawSheetData();
+        $this->header = $this->setSheetHeader();
+        $this->rowsArray = $this->setCurrentSheetValues();
+    }
+
+    public function importRawSheetData()
     {
         $client = new Client();
         $client->setApplicationName('reteer-app');
@@ -22,32 +33,37 @@ class SheetsImport
 
         $spreadsheet = new Sheets($client);
         $spreadsheetValues = $spreadsheet->spreadsheets_values;
+        $rawData = $spreadsheetValues->get(env('GOOGLE_SHEETS_ID'), env('GOOGLE_SHEET_NAME_TASKS'))->getValues();
 
-        $rawData = $spreadsheetValues->get('1kFZ2P8MTvc6pMOEc84-fQXtGMMvdBZZhKm1g-F87wnI', 'Logs')->getValues();
+        return $this->rawSheetData = $rawData;
+    }
+
+    public function setSheetHeader()
+    {
+        $rawData = $this->importRawSheetData();
+        $header = Arr::map($rawData[1], function (string $item) {
+            return Str::lower(str_replace(["(", ")", "*"], '', str_replace([" ", "\n", "__"], "_", $item)));
+        });
+        return $header;
+    }
+
+    public function getSheetHeader()
+    {
+        return $this->header;
+    }
+
+    public function setCurrentSheetValues()
+    {
 
         Task::truncate();
 
-        // clean and store header rows in an array
-        $header = Arr::map($rawData[1], function (string $item) {
-            return str($item)->lower()
-                ->replace(["(", ")", "*"], '')
-                ->replace([" ", "\n", "__"], "_")
-                ->toString();
-        });
+        return collect($this->rawSheetData)
+            ->skip(2)
+            ->toArray();
+    }
 
-        // store data before it has been committed
-        // $data = collect($rawData)
-        //     ->skip(2)
-        //     ->filter(function (array $row) {
-        //         return $row[6] ?? '' != '';
-        //     })
-        //     ->each(function (array $taskInfo) {
-        //         Task::create([
-        //             'start_date' => $taskInfo[2],
-        //             'start_time' => $taskInfo[3],
-        //             'name' => $taskInfo[6],
-        //             'public' => false,
-        //         ]);
-        //     });
+    public function getCurrentSheetValues()
+    {
+        return $this->rowsArray;
     }
 }

@@ -6,6 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.1",
+        "calebporzio/sushi": "^2.4",
         "filament/filament": "^2.0",
         "google/apiclient": "^2.15",
         "google/apiclient-services": "^0.309.0",
