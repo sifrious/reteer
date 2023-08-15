@@ -5,7 +5,7 @@ namespace App\Console\Commands;
 use App\Models\TaskSushi;
 use Illuminate\Console\Command;
 
-class GetSheet extends Command
+class TestSushi extends Command
 {
     /**
      * The name and signature of the console command.
