@@ -26,7 +26,7 @@
                                 <span>{{ $task->start_time }}</span>
                             @endif
                         </div>
-                        {{ $task->name }}
+                        {{ $task->task_description }}
                     </div>
                 </div>
             @endforeach

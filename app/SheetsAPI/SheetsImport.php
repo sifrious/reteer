@@ -40,8 +40,8 @@ class SheetsImport
 
     public function setSheetHeader()
     {
-        $rawData = $this->importRawSheetData();
-        $header = Arr::map($rawData[1], function (string $item) {
+        $rawData = $this->rawSheetData;
+        $header = Arr::map($rawData[0], function (string $item) {
             return Str::lower(str_replace(["(", ")", "*"], '', str_replace([" ", "\n", "__"], "_", $item)));
         });
         return $header;

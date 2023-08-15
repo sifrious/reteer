@@ -13,12 +13,11 @@ return new class extends Migration
     {
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
-            $table->string('sheets_id');
+            $table->string('sheets_id')->unique();
             $table->string('sheets_row');
-            $table->timestamp('sheets_created_at');
-            $table->timestamp('updated_at');
-            $table->string('name');
-            $table->string('originator');
+            $table->timestamp('sheets_created_at')->nullable();
+            $table->string('name')->nullable();
+            $table->string('author')->nullable();
             $table->string('start_date')->nullable();
             $table->string('start_time')->nullable();
             $table->integer('public');
