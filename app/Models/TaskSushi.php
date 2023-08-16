@@ -12,7 +12,7 @@ class TaskSushi extends Model
 
     public function getRows()
     {
-        $import = new SheetsImport(env('GOOGLE_SHEET_NAME_TASKS'));
+        $import = new SheetsImport(config('sheets.names.tasks'));
         $header = $import->getSheetHeader();
         return collect($import->getCurrentSheetValues())
             ->map(function ($taskValues) use ($header) {

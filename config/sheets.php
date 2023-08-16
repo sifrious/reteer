@@ -14,10 +14,9 @@ return [
 
     'id' => env('GOOGLE_SHEETS_ID'),
     'names' => [
-        'tasks' => env('GOOGLE_SHEET_NAME_'),
+        'tasks' => env('GOOGLE_SHEET_NAME_TASKS'),
         'addresses' => env('GOOGLE_SHEET_NAME_ADDRESSES'),
         'contacts' => env('GOOGLE_SHEET_NAME_CONTACTS'),
         'volunteers' => env('GOOGLE_SHEET_NAME_VOLUNTEERS'),
-    ]
-
+    ],
 ];

@@ -33,7 +33,7 @@ class SheetsImport
 
         $spreadsheet = new Sheets($client);
         $spreadsheetValues = $spreadsheet->spreadsheets_values;
-        $rawData = $spreadsheetValues->get(env('GOOGLE_SHEETS_ID'), env('GOOGLE_SHEET_NAME_TASKS'))->getValues();
+        $rawData = $spreadsheetValues->get(config('sheets.id'), config('sheets.names.tasks'))->getValues();
 
         return $this->rawSheetData = $rawData;
     }
