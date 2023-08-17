@@ -40,8 +40,6 @@ class GetSheet extends Command
 
         $rawData = $spreadsheetValues->get(config('sheets.id'), config('sheets.names.tasks'))->getValues();
 
-        // Task::truncate();
-
         $header = Arr::map($rawData[0], function (string $item) {
             return Str::lower(str_replace(["(", ")", "*"], '', str_replace([" ", "\n", "__"], "_", $item)));
         });
