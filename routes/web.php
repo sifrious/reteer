@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Task;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TaskController;
 use Illuminate\Support\Facades\Route;
@@ -19,11 +20,15 @@ Route::redirect('/', '/tasks');
 
 Route::middleware('auth')->group(function () {
     Route::get('/tasks', [TaskController::class, 'index'])->name('tasks.index');
-    Route::get('/task/{id}', [TaskController::class, 'show'])->name('tasks.index');
+
+    Route::get('/tasks/{task}', function (Task $task) {
+        return view('tasks.show')->with('task', $task);
+    });
+
     Route::get('/task/new', [TaskController::class, 'create'])->name('tasks.create');
-    Route::post('/task/new', [TaskController::class, 'create'])->name('tasks.store');
+    Route::post('/task/new', [TaskController::class, 'store'])->name('tasks.store');
     Route::get('/task/{id}/edit', [TaskController::class, 'edit'])->name('tasks.edit');
-    Route::post('/task/{id}/edit', [TaskController::class, 'edit'])->name('tasks.store');
+    Route::post('/task/{id}/edit', [TaskController::class, 'store'])->name('tasks.store');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

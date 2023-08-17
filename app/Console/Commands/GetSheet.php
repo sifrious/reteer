@@ -62,7 +62,7 @@ class GetSheet extends Command
                     'sheets_row' => $i + 1,
                     'author' => substr($taskValues['id_-_do_not_edit'], -14),
                     'start_date' => $taskValues['date_of_appointment'],
-                    'start_time' => $taskValues['date_of_appointment'],
+                    'start_time' => $taskValues['time'],
                     'public' => false,
                     'client_address' => $taskValues['client_address'],
                     'task_description' => $taskValues['task_description'],
