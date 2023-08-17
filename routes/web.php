@@ -19,10 +19,17 @@ Route::redirect('/', '/tasks');
 
 Route::middleware('auth')->group(function () {
     Route::get('/tasks', [TaskController::class, 'index'])->name('tasks.index');
+    Route::get('/task/{id}', [TaskController::class, 'show'])->name('tasks.index');
+    Route::get('/task/new', [TaskController::class, 'create'])->name('tasks.create');
+    Route::post('/task/new', [TaskController::class, 'create'])->name('tasks.store');
+    Route::get('/task/{id}/edit', [TaskController::class, 'edit'])->name('tasks.edit');
+    Route::post('/task/{id}/edit', [TaskController::class, 'edit'])->name('tasks.store');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+
 
 require __DIR__ . '/auth.php';
