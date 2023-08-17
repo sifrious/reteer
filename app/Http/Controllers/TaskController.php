@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Task;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\URL;
 
 class TaskController extends Controller
 {
@@ -20,6 +22,18 @@ class TaskController extends Controller
         return view('tasks.show', [
             'task' => $task,
         ]);
+    }
+
+    public function edit(Request $request, Task $task)
+    {
+        // $userId = Auth::user()->id;
+        // $taskId = $task->id;
+        return view('tasks.update');
+    }
+
+    public function update(Request $request, Task $task)
+    {
+        return 'hello world';
     }
 
     public function store(Request $request)

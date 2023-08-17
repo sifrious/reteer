@@ -3,6 +3,7 @@
 use App\Models\Task;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TaskController;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,10 +26,17 @@ Route::middleware('auth')->group(function () {
         return view('tasks.show')->with('task', $task);
     });
 
-    Route::get('/task/new', [TaskController::class, 'create'])->name('tasks.create');
-    Route::post('/task/new', [TaskController::class, 'store'])->name('tasks.store');
-    Route::get('/task/{id}/edit', [TaskController::class, 'edit'])->name('tasks.edit');
-    Route::post('/task/{id}/edit', [TaskController::class, 'store'])->name('tasks.store');
+    // view create form
+    Route::get('/tasks/new', [TaskController::class, 'create'])->name('tasks.create');
+
+    // view edit form
+    Route::get('/tasks/{id}/edit', [TaskController::class, 'edit'])->name('tasks.edit');
+    // update existing task
+    Route::get('/tasks/{task}/update/', function (Task $task, User $user) {
+        return view('tasks.update')
+            ->with('task', $task)
+            ->with('user', $user);
+    })->name('editTask')->middleware('signed');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
