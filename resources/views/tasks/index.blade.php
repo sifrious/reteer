@@ -23,8 +23,10 @@
                             <div>
                                 @if ($task->start_date != '')
                                     <span>{{ $task->start_date }}</span>
-                                    <span>@</span>
-                                    <span>{{ $task->start_time }}</span>
+                                    @if ($task->start_time != '')
+                                        <span>@</span>
+                                        <span>{{ $task->start_time }}</span>
+                                    @endif
                                 @endif
                             </div>
                             {{ $task->task_description }}

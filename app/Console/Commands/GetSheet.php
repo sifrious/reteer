@@ -57,10 +57,12 @@ class GetSheet extends Command
                 return $row['task_description'] ?? '' != '';
             })
             ->map(function ($taskValues, $i) {
+                $raw_user = substr($taskValues['id_-_do_not_edit'], 0, -14);
                 return [
                     'sheets_id' => $taskValues['id_-_do_not_edit'],
                     'sheets_row' => $i + 1,
-                    'author' => substr($taskValues['id_-_do_not_edit'], -14),
+                    'author' => $raw_user,
+                    'sheets_created_at' => substr($taskValues['id_-_do_not_edit'], -14),
                     'start_date' => $taskValues['date_of_appointment'],
                     'start_time' => $taskValues['time'],
                     'public' => false,

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('sheets_id')->unique();
             $table->string('sheets_row');
-            $table->timestamp('sheets_created_at')->nullable();
+            $table->string('sheets_created_at')->nullable();
             $table->string('name')->nullable();
             $table->string('author')->nullable();
             $table->string('start_date')->nullable();
