@@ -36,7 +36,7 @@ class TaskController extends Controller
         return 'hello world';
     }
 
-    public function create(Request $request, Task $task)
+    public function create(Request $request)
     {
         return view('tasks.create');
     }
