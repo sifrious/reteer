@@ -1,8 +1,15 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Tasks') }}
-        </h2>
+        <div class="flex items-center justify-between">
+            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+                {{ __('Tasks') }}
+            </h2>
+            <button class="text-white bg-blue-500 px-6 py-2 rounded font-bold">
+                <a href="{{ route('tasks.create') }}">
+                    {{ __('Create Task') }}
+                </a>
+            </button>
+        </div>
     </x-slot>
 
     <div class="py-12">
