@@ -36,6 +36,11 @@ class TaskController extends Controller
         return 'hello world';
     }
 
+    public function create(Request $request, Task $task)
+    {
+        return view('tasks.create');
+    }
+
     public function store(Request $request)
     {
         Task::create(request()->only([

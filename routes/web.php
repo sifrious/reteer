@@ -22,21 +22,16 @@ Route::redirect('/', '/tasks');
 Route::middleware('auth')->group(function () {
     Route::get('/tasks', [TaskController::class, 'index'])->name('tasks.index');
 
-    Route::get('/tasks/{task}', function (Task $task) {
-        return view('tasks.show')->with('task', $task);
-    });
-
     // view create form
     Route::get('/tasks/new', [TaskController::class, 'create'])->name('tasks.create');
+    Route::post('/tasks/new', [TaskController::class, 'store'])->name('tasks.store');
+
+    Route::get('/tasks/{task}', [TaskController::class, 'show'])->name('tasks.show');
 
     // view edit form
     Route::get('/tasks/{id}/edit', [TaskController::class, 'edit'])->name('tasks.edit');
     // update existing task
-    Route::get('/tasks/{task}/update/', function (Task $task, User $user) {
-        return view('tasks.update')
-            ->with('task', $task)
-            ->with('user', $user);
-    })->name('editTask')->middleware('signed');
+    Route::get('/tasks/{task}/update/', [TaskController::class, 'update'])->name('tasks.update');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
