@@ -25,6 +25,7 @@ Route::middleware('auth')->group(function () {
     // view create form
     Route::get('/tasks/new', [TaskController::class, 'create'])->name('tasks.create');
     Route::post('/tasks/new', [TaskController::class, 'store'])->name('tasks.store');
+    Route::post('/tasks/new/{task}/confirm', [TaskController::class, 'confirm'])->name('tasks.confirmStore');
 
     Route::get('/tasks/{task}', [TaskController::class, 'show'])->name('tasks.show');
 

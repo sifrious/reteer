@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Task;
+use Google\Client;
+use Google\Service\Script\Content;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
 
@@ -65,8 +68,17 @@ class TaskController extends Controller
 
         $task->save();
 
-        $task_json = $task->toJson(); // create json object for api call
+        $task->action = 'create';
+
 
         return redirect('tasks');
+    }
+
+    public function confirmStore(Request $request, Task $task)
+    {
+        $task_json = $task->toJson(); // create json object for api call
+
+        dump($task_json);
+        return view('tasks.confirmNew');
     }
 }
