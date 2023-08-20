@@ -19,5 +19,8 @@ return [
         'contacts' => env('GOOGLE_SHEET_NAME_CONTACTS'),
         'volunteers' => env('GOOGLE_SHEET_NAME_VOLUNTEERS'),
     ],
-    'url' => ['ss' => env('GOOGLE_DEPLOYMENT_ENDPOINT_URL')]
+    'url' => [
+        'ss' => env('GOOGLE_DEPLOYMENT_ENDPOINT_URL'),
+    ],
+    'config' => env('GOOGLE_CREDENTIALS'),
 ];
