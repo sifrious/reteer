@@ -7,6 +7,7 @@ use Google\Service\Sheets\Spreadsheet;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
 use Filament\Notifications\Collection;
+use Google\Service\Sheets\ValueRange;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,3 +23,39 @@ use Filament\Notifications\Collection;
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->purpose('Display an inspiring quote');
+
+Artisan::command('app:post-new-sheet', function () {
+    $client = new Client();
+    $client->setApplicationName('reteer-app');
+    $client->setScopes('https://www.googleapis.com/auth/spreadsheets');
+    $client->setAuthConfig('credentials.json');
+
+    $spreadsheet = new Sheets($client);
+    $spreadsheetValues = $spreadsheet->spreadsheets_values;
+
+    $values = new ValueRange(['values' => [
+        ['value1'],
+    ]]);
+    $options = ['valueInputOption' => 'RAW'];
+
+    $spreadsheetValues->append(config('sheets.id'), config('sheets.names.tasks'), $values, $options);
+});
+
+Artisan::command('app:post-update-cell', function () {
+    $client = new Client();
+    $client->setApplicationName('reteer-app');
+    $client->setScopes('https://www.googleapis.com/auth/spreadsheets');
+    $client->setAuthConfig('credentials.json');
+
+    $spreadsheet = new Sheets($client);
+    $spreadsheetValues = $spreadsheet->spreadsheets_values;
+
+    $values = new ValueRange(['values' => [
+        ['again'],
+    ]]);
+    $options = ['valueInputOption' => 'RAW'];
+
+    $range = config('sheets.names.tasks') . '!A16:A16';
+
+    $spreadsheetValues->update(config('sheets.id'), $range, $values, $options);
+});
