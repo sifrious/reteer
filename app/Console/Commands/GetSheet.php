@@ -38,7 +38,7 @@ class GetSheet extends Command
         $spreadsheet = new Sheets($client);
         $spreadsheetValues = $spreadsheet->spreadsheets_values;
 
-        $rawData = $spreadsheetValues->get(config('sheets.id'), config('sheets.names.tasks'))->getValues();
+        $rawData = $spreadsheetValues->get(config('sheets.id.spreadsheet'), config('sheets.names.tasks'))->getValues();
 
         $header = Arr::map($rawData[0], function (string $item) {
             return Str::lower(str_replace(["(", ")", "*"], '', str_replace([" ", "\n", "__"], "_", $item)));
