@@ -2,6 +2,9 @@
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Tasks') }}
+            @if ($task->name)
+                > {{ $tasks->name }}
+            @endif
         </h2>
     </x-slot>
 
@@ -10,39 +13,53 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <form method="POST">
                     @csrf
+                    <div>
+                        <div class="p-1 text-gray-900">
+                            <p>The task previously was scheduled to occur on {{ $task->start_date }} at
+                                {{ $task->start_time }}</p>
+                            <p>To change it, select a new date and time below. If you do not select a new date and time,
+                                the
+                                previously saved information will remain available.</p>
+                            <label for="start_date" class="=w-2/5">Date:</label>
+                            <input name="start_date" id="start_date" value="" type="date" />
+                        </div>
+                        <div class="p-1 text-gray-900">
+                            <label for="start_time">Time:</label>
+                            <input name="start_time" id="start_time" value="{{ $task->start_time }}" type="time" />
+                        </div>
+                    </div>
+                    <p>
+                        To add or change information, change it in the fields below. All fields that are not edited will
+                        retain their values after the edit.
+
+                    </p>
                     <div class="p-1 text-gray-900">
-                        <label for="start_date">Enter Date:</label>
-                        <input name="start_date" id="start_date" value="" type="date" />
+                        <label for="name">In-App Task Nickname</label>
+                        <input name="name" id="name" value="{{ $task->name }}" type="text" />
                     </div>
                     <div class="p-1 text-gray-900">
-                        <label for="start_time">Enter the time the appointment will start:</label>
-                        <input name="start_time" id="start_time" value="" type="time" />
-                    </div>
-                    <div class="p-1 text-gray-900">
-                        <label for="name">Enter a name for the event that will help you remember</label>
-                        <input name="name" id="name" value="" type="text" />
-                    </div>
-                    <div class="p-1 text-gray-900">
-                        <label for="task_description">Enter the task description **Required</label>
-                        <input name="task_description" required id="task_description" value="" type="text" />
+                        <label for="task_description">Description</label>
+                        <input name="task_description" id="task_description" value="{{ $task->task_description }}"
+                            type="text" />
                     </div>
                     {{-- Select from existing clients --}}
                     <div class="p-1 text-gray-900">
-                        <label for="client">Enter the client this task will assist</label>
-                        <input name="client" id="client" value="" type="text" />
+                        <label for="client">Client</label>
+                        <input name="client" id="client" value="{{ $task->client }}" type="text" />
                     </div>
                     <div class="p-1 text-gray-900">
-                        <label for="client_address">Enter client pickup address</label>
-                        <input name="client_address" id="client_address" value="" type="text" />
+                        <label for="client_address">Client Pickup Address</label>
+                        <input name="client_address" id="client_address" value="{{ $task->client_address }}"
+                            type="text" />
                     </div>
                     <div class="p-1 text-gray-900">
-                        <label for="destination">Enter task destination address</label>
-                        <input name="destination" id="destination" value="" type="text" />
+                        <label for="destination">Task Destination Address</label>
+                        <input name="destination" id="destination" value="{{ $task->destination }}" type="text" />
                     </div>
                     <div class="p-1 text-gray-900">
-                        <label for="contact_information">Add any contact information a
-                            volunteer may need for this task</label>
-                        <input name="contact_information" id="contact_information" value="" type="text" />
+                        <label for="contact_information">Contact Information</label>
+                        <input name="contact_information" id="contact_information"
+                            value="{{ $task->contact_information }}" type="text" />
                     </div>
                     <input type="submit" value="Save Task" />
                 </form>
