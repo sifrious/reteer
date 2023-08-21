@@ -19,7 +19,7 @@ class TaskController extends Controller
     }
 
     public function show(Request $request, Task $task)
-    { // this is literally a guess
+    {
         return view('tasks.show', [
             'task' => $task,
         ]);
@@ -27,14 +27,20 @@ class TaskController extends Controller
 
     public function edit(Request $request, Task $task)
     {
-        // $userId = Auth::user()->id;
-        // $taskId = $task->id;
-        return view('tasks.update');
+        return view('tasks.edit', [
+            'task' => $task,
+        ]);
+    }
+
+    public function confirmEdit(Request $request, Task $task)
+    {
+        dump($task);
+        return "hello world";
     }
 
     public function update(Request $request, Task $task)
     {
-        return 'hello world';
+        return view('tasks.update');
     }
 
     public function create(Request $request)

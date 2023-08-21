@@ -29,7 +29,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/tasks/{task}', [TaskController::class, 'show'])->name('tasks.show');
 
     // view edit form
-    Route::get('/tasks/{id}/edit', [TaskController::class, 'edit'])->name('tasks.edit');
+    Route::get('/tasks/{task}/edit', [TaskController::class, 'edit'])->name('tasks.edit');
+    Route::post('/tasks/{task}/edit', [TaskController::class, 'edit'])->name('tasks.edit');
     // update existing task
     Route::get('/tasks/{task}/update/', [TaskController::class, 'update'])->name('tasks.update');
 
