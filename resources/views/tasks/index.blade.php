@@ -4,11 +4,9 @@
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 {{ __('Tasks') }}
             </h2>
-            <button class="text-white bg-blue-500 px-6 py-2 rounded font-bold">
-                <a href="{{ route('tasks.create') }}">
-                    {{ __('Create Task') }}
-                </a>
-            </button>
+            <a href="{{ route('tasks.create') }}" class="text-white bg-blue-500 px-6 py-2 rounded font-bold">
+                {{ __('Create Task') }}
+            </a>
         </div>
     </x-slot>
 
