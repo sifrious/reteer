@@ -28,13 +28,13 @@ Artisan::command('app:post-new-sheet', function () {
     $client = new Client();
     $client->setApplicationName('reteer-app');
     $client->setScopes('https://www.googleapis.com/auth/spreadsheets');
-    $client->setAuthConfig('credentials.json');
+    $client->setAuthConfig(base_path('credentials.json'));
 
     $spreadsheet = new Sheets($client);
     $spreadsheetValues = $spreadsheet->spreadsheets_values;
 
     $values = new ValueRange(['values' => [
-        ['value1'],
+        ['value1', 'value2', 'value4'],
     ]]);
     $options = ['valueInputOption' => 'RAW'];
 
@@ -45,7 +45,7 @@ Artisan::command('app:post-update-cell', function () {
     $client = new Client();
     $client->setApplicationName('reteer-app');
     $client->setScopes('https://www.googleapis.com/auth/spreadsheets');
-    $client->setAuthConfig('credentials.json');
+    $client->setAuthConfig(base_path('credentials.json'));
 
     $spreadsheet = new Sheets($client);
     $spreadsheetValues = $spreadsheet->spreadsheets_values;

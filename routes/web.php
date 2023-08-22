@@ -24,7 +24,9 @@ Route::middleware('auth')->group(function () {
 
     // view create form
     Route::get('/tasks/new', [TaskController::class, 'create'])->name('tasks.create');
-    Route::post('/tasks/new', [TaskController::class, 'store'])->name('tasks.store');
+    Route::post('/tasks/new', [TaskController::class, 'store'])->name('tasks.create');
+    // confirm task has been posted from spreadsheet
+    Route::get('/tasks/{task}/new', [TaskController::class, 'confirmCreate'])->name('tasks.confirmCreate');
 
     Route::get('/tasks/{task}', [TaskController::class, 'show'])->name('tasks.show');
 
