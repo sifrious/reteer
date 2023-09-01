@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Circle-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">
+  <defs>
+    <style>
+      .cls-1 {
+        stroke-width: 33px;
+      }
+
+      .cls-1, .cls-2, .cls-3 {
+        stroke: #fbb03b;
+      }
+
+      .cls-1, .cls-2, .cls-3, .cls-4 {
+        fill: none;
+        stroke-miterlimit: 10;
+      }
+
+      .cls-2 {
+        opacity: .6;
+        stroke-width: 20px;
+      }
+
+      .cls-3 {
+        opacity: .9;
+        stroke-width: 12px;
+      }
+
+      .cls-5 {
+        letter-spacing: -.02em;
+      }
+
+      .cls-5, .cls-6 {
+        fill: #fff;
+        font-family: DMSerifDisplay-Regular, 'DM Serif Display';
+        font-size: 498.66px;
+      }
+
+      .cls-4 {
+        stroke: #fff;
+        stroke-width: 39px;
+      }
+
+      .cls-7 {
+        fill: #fbb03b;
+        opacity: .4;
+      }
+
+      .cls-6 {
+        letter-spacing: -.02em;
+      }
+    </style>
+  </defs>
+  <path class="cls-7" d="M555.64,302.35c0,138.17-112.01,250.18-250.18,250.18S55.28,440.52,55.28,302.35,167.29,52.18,305.46,52.18s250.18,112.01,250.18,250.18"/>
+  <g>
+    <path class="cls-1" d="M96.52,436.68c36.05-105.45,115.88-207,216.32-270.53,18.65-11.8,145.74-74.13,168.22-77.61"/>
+    <path class="cls-1" d="M91.21,252.63c25.91-19.62,48.05-43.25,65.15-69.54,14.77,16.6,8.87,40.76,2.26,61.16-20.84,64.25-49.79,156.99-70.63,221.23"/>
+  </g>
+  <path class="cls-1" d="M259.99,339.3c52.34-11.79,108.24-25.6,143.97-65.63,11.43-12.8,20.48-31.48,12.46-46.65-11.27-21.32-43.37-16.16-64.62-4.76-45.71,24.51-84.32,66.21-95.06,116.96-10.74,50.74,11.75,109.47,58.47,131.98,53.62,25.84,140.01,16.48,183.89-23.74,34.78-31.88,61.86-83.77,61.86-83.77"/>
+  <path class="cls-2" d="M554.82,301.47c0,138.07-111.93,250-250,250S54.82,439.54,54.82,301.47,166.75,51.47,304.82,51.47s250,111.93,250,250"/>
+  <ellipse class="cls-4" cx="306.1" cy="301.44" rx="274.25" ry="274.47"/>
+  <g>
+    <g id="e">
+      <text class="cls-6" transform="translate(280.24 431.26) scale(.96 1)"><tspan x="0" y="0">e</tspan></text>
+    </g>
+    <text class="cls-5" transform="translate(93.34 430.53) scale(.96 1)"><tspan x="0" y="0">r</tspan></text>
+  </g>
+  <path class="cls-3" d="M555.82,303.47c0,138.07-111.93,250-250,250S55.82,441.54,55.82,303.47,167.75,53.47,305.82,53.47s250,111.93,250,250"/>
+</svg>

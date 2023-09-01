@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Horizontal_Layout" data-name="Horizontal Layout" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 332">
+  <defs>
+    <style>
+      .cls-1 {
+        letter-spacing: 0em;
+      }
+
+      .cls-2 {
+        opacity: .75;
+      }
+
+      .cls-3 {
+        letter-spacing: -.03em;
+      }
+
+      .cls-4 {
+        font-size: 342.54px;
+      }
+
+      .cls-4, .cls-5 {
+        font-family: DMSerifDisplay-Regular, 'DM Serif Display';
+      }
+
+      .cls-6 {
+        letter-spacing: -.02em;
+      }
+
+      .cls-5 {
+        fill: none;
+        font-size: 327.89px;
+        stroke: #000;
+        stroke-dasharray: 0 0 5 7;
+        stroke-miterlimit: 10;
+        stroke-width: 3px;
+      }
+    </style>
+  </defs>
+  <g id="reteer_horizontal" data-name="reteer horizontal">
+    <g id="re_dotted_" data-name="re (dotted)" class="cls-2">
+      <text class="cls-5" transform="translate(23.29 268.28)"><tspan class="cls-3" x="0" y="0">r</tspan><tspan class="cls-6" x="133.78" y="0">e</tspan></text>
+    </g>
+    <g id="teer_solid_" data-name="teer (solid)">
+      <text class="cls-4" transform="translate(321.99 268.18)"><tspan class="cls-1" x="0" y="0">t</tspan><tspan x="122.63" y="0">eer</tspan></text>
+    </g>
+  </g>
+</svg>

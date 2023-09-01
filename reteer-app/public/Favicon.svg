@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Circle-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+  <defs>
+    <style>
+      .cls-1 {
+        stroke-width: 15px;
+      }
+
+      .cls-1, .cls-2, .cls-3 {
+        fill: none;
+        stroke-miterlimit: 10;
+      }
+
+      .cls-1, .cls-3 {
+        stroke: #fbb03b;
+      }
+
+      .cls-4 {
+        opacity: .2;
+      }
+
+      .cls-2 {
+        stroke: #fff;
+        stroke-width: 8px;
+      }
+
+      .cls-3 {
+        opacity: .9;
+        stroke-width: 12px;
+      }
+
+      .cls-5 {
+        fill: #fff;
+        font-family: DMSerifDisplay-Regular, 'DM Serif Display';
+        font-size: 221.3px;
+        letter-spacing: -.02em;
+      }
+
+      .cls-6 {
+        fill: #fbb03b;
+        opacity: .4;
+      }
+    </style>
+  </defs>
+  <path class="cls-6" d="M239.68,122.37c0,61.32-49.71,111.03-111.03,111.03S17.63,183.68,17.63,122.37,67.34,11.34,128.66,11.34s111.03,49.71,111.03,111.03"/>
+  <g class="cls-4">
+    <g>
+      <path class="cls-1" d="M35.93,181.98c16-46.8,55.35-90.36,99.92-118.56,8.28-5.24,59.45-27.27,69.43-28.82"/>
+      <path class="cls-1" d="M33.58,100.3c11.5-8.71,21.32-19.2,28.91-30.86,6.55,7.37,3.94,18.09,1,27.14-9.25,28.51-20.61,63.91-29.85,92.42"/>
+    </g>
+    <path class="cls-1" d="M108.48,138.76c23.23-5.23,48.04-11.36,63.89-29.13,5.07-5.68,9.09-13.97,5.53-20.7-5-9.46-19.25-7.17-28.68-2.11-20.29,10.88-37.42,29.39-42.19,51.9-4.77,22.52,5.21,48.58,25.95,58.57,23.8,11.47,62.14,7.31,81.61-10.54,15.44-14.15,27.45-37.18,27.45-37.18"/>
+  </g>
+  <ellipse class="cls-2" cx="128.62" cy="130.65" rx="121.71" ry="121.81"/>
+  <g>
+    <g id="r">
+      <text class="cls-5" transform="translate(35.71 186.86) scale(.96 1)"><tspan x="0" y="0">r</tspan></text>
+    </g>
+    <g id="e">
+      <text class="cls-5" transform="translate(118.03 186.94) scale(.96 1)"><tspan x="0" y="0">e</tspan></text>
+    </g>
+  </g>
+  <path class="cls-3" d="M240.33,130.22c0,61.27-49.67,110.95-110.95,110.95S18.44,191.5,18.44,130.22,68.11,19.28,129.38,19.28s110.95,49.67,110.95,110.95"/>
+</svg>
