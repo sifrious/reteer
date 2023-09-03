@@ -57,5 +57,27 @@ class JetstreamServiceProvider extends ServiceProvider
             'create',
             'update',
         ])->description('Editor users have the ability to read, create, and update.');
+
+        Jetstream::role('volunteer', 'Volunteer', [
+            'signup',
+            'unassign',
+            'schedule',
+            'setAvailability',
+            'alterAvailability',
+            'read',
+            'update',
+        ])->description('Volunteer users have the ability to sign up for and remove themselves from tasks, set and alter their availability and preferences, and view their schedule and available tasks');
+
+        Jetstream::role('coordinator', 'Coordinator', [
+            'signup',
+            'unassign',
+            'schedule',
+            'viewAvailability',
+            'viewProgress',
+            'create',
+            'read',
+            'update',
+            'delete',
+        ])->description('Coordinators can add and remove volunteers, create/modify/delete tasks');
     }
 }
