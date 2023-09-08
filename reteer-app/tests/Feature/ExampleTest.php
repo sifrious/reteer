@@ -1,8 +1,8 @@
 <?php
 
+use function Pest\Laravel\{get};
+
 it('gives back successful response for the home page', function () {
 
-    $response = $this->get('/');
-
-    $response->assertStatus(200);
+    get(route('home'))->assertStatus(200);
 });
