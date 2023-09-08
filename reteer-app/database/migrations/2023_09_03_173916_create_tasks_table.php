@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
             $table->string('sheets_id')->unique();
-            $table->string('sheets_row');
+            $table->string('sheets_row')->nullable();
             $table->string('sheets_created_at')->nullable();
             $table->string('name')->nullable();
             $table->string('author')->nullable();

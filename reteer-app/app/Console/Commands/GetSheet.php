@@ -74,6 +74,7 @@ class GetSheet extends Command
                     'contact_information' => $taskValues['contact_information'],
                 ];
             });
+        dump($stagedValues);
 
         Task::query()->upsert($stagedValues->all(), 'sheets_id', [
             'sheets_row',

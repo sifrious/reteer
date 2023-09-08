@@ -123,12 +123,26 @@ class TaskController extends Controller
         $sheet_id = null;
         $google_sheets_id = 8;
         $google_sheets_row_number = 10;
-        foreach ($rawData as $row) {
-            if ($row[$google_sheets_id] == $task->sheets_id) {
-                $sheet_id = $row[$google_sheets_row_number];
-                break;
-            }
+        foreach ($rawData as $rawRow) {
+            // dump("old array was ");
+            // dump($rawRow);
+            $row = array_merge($rawRow, array_fill(count($rawRow), 11 - count($rawRow), ""));
+            // dump("new array is");
+            // dump($row);
+            try {
+                if ($row[$google_sheets_id] == $task->sheets_id) {
+                    try {
+                        $sheet_id = $row[$google_sheets_row_number];
+                        break;
+                    } catch (Exception $e) {
+                        dump("no row number value" . $e);
+                    }
+                }
+            } catch (Exception $e) {
+                dump("no sheet id value", $e);
+            };
         };
+        // dd($rawData);
         if ($sheet_id != null) {
             $task->sheets_row = $sheet_id;
             $task->save();
