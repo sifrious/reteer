@@ -25,7 +25,7 @@ Route::middleware([
 ])->group(function () {
     //user dashboard
     Route::get('/dashboard', function () {
-        return view('dashboard');
+        [TaskController::class, 'board'];
     })->name('tasks.board');
     // all tasks
     Route::get(
