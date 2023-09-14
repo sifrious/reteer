@@ -54,16 +54,6 @@ class TaskController extends Controller
                 array_push($assigned, $task);
             }
         };
-        // dump([
-        //     'dated' => $dated,
-        //     'dateless' => $dateless,
-        //     'upcoming' => $upcoming,
-        //     'past' => $past,
-        //     'unassigned' => $unassigned,
-        //     'assigned' => $assigned,
-        //     'count_unassigned' => count($unassigned),
-        //     'count_assigned' => count($assigned),
-        // ]);
         return view('tasks.board', [
             'dated' => $dated,
             'dateless' => $dateless,
@@ -126,7 +116,7 @@ class TaskController extends Controller
 
     public function confirmCreate(Request $request, Task $task)
     {
-        sleep(5);
+        sleep(3);
 
         $client = new Client();
         $client->setApplicationName('reteer-app');
@@ -136,32 +126,40 @@ class TaskController extends Controller
         $spreadsheet = new Sheets($client);
         $spreadsheetValues = $spreadsheet->spreadsheets_values;
 
-        $rawData = $spreadsheetValues->get(config('sheets.id'), config('sheets.names.tasks'))->getValues();
+        $sheetData = $spreadsheetValues->get(config('sheets.id'), config('sheets.names.tasks'))->getValues();
+        $rawData = array_reverse($sheetData);
         $sheet_id = null;
         $google_sheets_id = 8;
         $google_sheets_row_number = 10;
+        $row_number = -1;
         foreach ($rawData as $rawRow) {
-            // dump("old array was ");
-            // dump($rawRow);
             $row = array_merge($rawRow, array_fill(count($rawRow), 11 - count($rawRow), ""));
-            // dump("new array is");
-            // dump($row);
             try {
+                dump("SHEETS ID: ");
+                dump($row);
+                dump("TASK SHEETS ID: ");
+                dump($task);
+                dump("compare $row[$google_sheets_id] to $task->sheets_id");
                 if ($row[$google_sheets_id] == $task->sheets_id) {
                     try {
-                        $sheet_id = $row[$google_sheets_row_number];
+                        $sheet_id = $row[$google_sheets_id];
+                        $row_number = $row[$google_sheets_row_number];
+                        dd($sheet_id . " updated sheet id");
                         break;
                     } catch (Exception $e) {
                         dump("no row number value" . $e);
                     }
                 }
+                dump($rawRow);
             } catch (Exception $e) {
                 dump("no sheet id value", $e);
             };
         };
-        // ($rawData);
-        if ($sheet_id != null) {
-            $task->sheets_row = $sheet_id;
+        dump($rawData);
+        dd($sheet_id);
+        if ($row_number != null) {
+            $task->sheets_id = $sheet_id;
+            $task->sheets_row = $row_number;
             $task->save();
             return view('tasks.confirmnew', ['task' => $task, 'status' => 'success']);
         } else {
