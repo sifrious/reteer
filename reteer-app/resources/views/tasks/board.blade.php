@@ -16,12 +16,13 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-2">
-            <h1 class="font-serif text-gray-900 text-4xl mb-8">
-                {{ __('Upcoming Unassigned Tasks') }}
-            </h1>
-            <x-task.list :tasks="$unassigned"></x-task.list>
-        </div>
+        @if ($unassigned)
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-2">
+                <h1 class="font-serif text-gray-900 text-4xl mb-8">
+                    {{ __('Upcoming Unassigned Tasks') }}
+                </h1>
+                <x-tasks-list :tasks="$unassigned"></x-tasks-list>
+            </div>
+        @endif
     </div>
-
 </x-app-layout>

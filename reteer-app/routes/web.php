@@ -24,12 +24,13 @@ Route::middleware([
     'verified',
 ])->group(function () {
     //user dashboard
-    Route::get('/dashboard', function () {
-        [TaskController::class, 'board'];
-    })->name('tasks.board');
+    Route::get(
+        '/dashboard',
+        [TaskController::class, 'board']
+    )->name('tasks.board');
     // all tasks
     Route::get(
-        '/tasks/user/{user}',
+        '/tasks/user',
         [TaskController::class, 'display']
     )->name('tasks.display');
     Route::get(

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Task;
+use App\Models\User;
 use Exception;
 use Google\Client;
 use Google\Service\Sheets;
@@ -30,7 +31,6 @@ class TaskController extends Controller
         $past = [];
         $unassigned = [];
         $assigned = [];
-        $i = 0;
         foreach ($tasks as $task) {
             $now = strtotime(now());
             $date = strtotime($task->start_date);
@@ -54,6 +54,16 @@ class TaskController extends Controller
                 array_push($assigned, $task);
             }
         };
+        // dump([
+        //     'dated' => $dated,
+        //     'dateless' => $dateless,
+        //     'upcoming' => $upcoming,
+        //     'past' => $past,
+        //     'unassigned' => $unassigned,
+        //     'assigned' => $assigned,
+        //     'count_unassigned' => count($unassigned),
+        //     'count_assigned' => count($assigned),
+        // ]);
         return view('tasks.board', [
             'dated' => $dated,
             'dateless' => $dateless,
@@ -64,6 +74,13 @@ class TaskController extends Controller
             'count_unassigned' => count($unassigned),
             'count_assigned' => count($assigned),
         ]);
+    }
+
+    public function display(Request $request)
+    {
+        $user = $request->user();
+        $userTasks = Task::all(); // change this when assignment is working
+        return view('tasks.display', ['task' => $userTasks, 'user' => $user]);
     }
 
     public function show(Request $request, Task $task)
@@ -142,7 +159,7 @@ class TaskController extends Controller
                 dump("no sheet id value", $e);
             };
         };
-        // dd($rawData);
+        // ($rawData);
         if ($sheet_id != null) {
             $task->sheets_row = $sheet_id;
             $task->save();
@@ -234,8 +251,6 @@ class TaskController extends Controller
     public function confirmStore(Request $request, Task $task)
     {
         $task_json = $task->toJson(); // create json object for api call
-
-        dump($task_json);
         return view('tasks.confirmNew');
     }
 }
