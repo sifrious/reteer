@@ -1,0 +1,25 @@
+0000000000000000000000000000000000000000 df6f85250f49f160d75f742975aab7a559511ecc Mary Perry <83845130+mmelines@users.noreply.github.com> 1693490774 -0400	commit (initial): redo
+df6f85250f49f160d75f742975aab7a559511ecc fa6eb1e9c722dd6109677df9a4b494ba2cecd877 Mary Perry <83845130+mmelines@users.noreply.github.com> 1693497024 -0400	commit: wut
+fa6eb1e9c722dd6109677df9a4b494ba2cecd877 9462392793a19481e0ea1ccb529bfb31e796d463 Mary Perry <83845130+mmelines@users.noreply.github.com> 1693497307 -0400	commit: added livewire, folio, whatever
+9462392793a19481e0ea1ccb529bfb31e796d463 4b1ba38db71b055a57809d0aea9aa8fa36a7450a Mary Perry <83845130+mmelines@users.noreply.github.com> 1693524217 -0400	commit: removed duplicates
+4b1ba38db71b055a57809d0aea9aa8fa36a7450a df6f85250f49f160d75f742975aab7a559511ecc Mary Perry <83845130+mmelines@users.noreply.github.com> 1693525566 -0400	reset: moving to df6f852
+df6f85250f49f160d75f742975aab7a559511ecc be195531745c83d85aa70fba261bb0aafcc561ec Mary Perry <83845130+mmelines@users.noreply.github.com> 1693525729 -0400	commit: omg
+be195531745c83d85aa70fba261bb0aafcc561ec a84954657183bcc49c59c2ff2b46251d3589b61c Mary Perry <83845130+mmelines@users.noreply.github.com> 1693525768 -0400	commit: created app
+a84954657183bcc49c59c2ff2b46251d3589b61c d4d90bc0425a103006021a665f65e87e4d416a31 Mary Perry <83845130+mmelines@users.noreply.github.com> 1693525897 -0400	commit: installed jetstream
+d4d90bc0425a103006021a665f65e87e4d416a31 fd824fc040e3972e41cdab2e2a547550790cd3dc Mary Perry <83845130+mmelines@users.noreply.github.com> 1693531169 -0400	commit: added web icons
+fd824fc040e3972e41cdab2e2a547550790cd3dc f2aa031d068e253d8726d0c034032085d9051144 Mary Perry <83845130+mmelines@users.noreply.github.com> 1693532271 -0400	commit: changed logo to temp string
+f2aa031d068e253d8726d0c034032085d9051144 6da3616edf6f037c191da889cdf1d96cadf8a0a1 Mary Perry <83845130+mmelines@users.noreply.github.com> 1693762221 -0400	commit: added altered welcome change (styles unfinished)
+6da3616edf6f037c191da889cdf1d96cadf8a0a1 67c3bb255a9b45aa0fd80c1138ec387ab54dec16 Mary Perry <83845130+mmelines@users.noreply.github.com> 1693762265 -0400	commit: added get sheet
+67c3bb255a9b45aa0fd80c1138ec387ab54dec16 019e76bab1a2d4b6dd22655d4af61696fe857f15 Mary Perry <83845130+mmelines@users.noreply.github.com> 1693762706 -0400	commit: added old google get-sheet command
+019e76bab1a2d4b6dd22655d4af61696fe857f15 2ff66540643955f2cacd6d8b9f0bf57aaf4408d9 Mary Perry <83845130+mmelines@users.noreply.github.com> 1693762848 -0400	commit: added Task model
+2ff66540643955f2cacd6d8b9f0bf57aaf4408d9 171451edcee58ddfb10cb8989acdba5b7aec8f31 Mary Perry <83845130+mmelines@users.noreply.github.com> 1694103396 -0400	commit: made readme type changes with bad git hygiene
+171451edcee58ddfb10cb8989acdba5b7aec8f31 025edb4953ec64ca936e74f23905955206ab795f Mary Perry <83845130+mmelines@users.noreply.github.com> 1694131428 -0400	commit: installed pest
+025edb4953ec64ca936e74f23905955206ab795f 744baa3a57687a4afd112d8b738824e5dc41e875 Mary Perry <83845130+mmelines@users.noreply.github.com> 1694137077 -0400	commit: wrote a working example test
+744baa3a57687a4afd112d8b738824e5dc41e875 723668e0537c569223cf7ec29b59493609a7a296 Mary Perry <83845130+mmelines@users.noreply.github.com> 1694141963 -0400	commit: refactored test per instructions
+723668e0537c569223cf7ec29b59493609a7a296 6d62dab25f3b8f6c60d02b1b522d106defd061f5 Mary Perry <83845130+mmelines@users.noreply.github.com> 1694150964 -0400	commit: added routes from previous version
+6d62dab25f3b8f6c60d02b1b522d106defd061f5 0d63c51f3182f20989f7c69f68b276bdb3aa4438 Mary Perry <83845130+mmelines@users.noreply.github.com> 1694160744 -0400	commit: 10 failing test cases :)
+0d63c51f3182f20989f7c69f68b276bdb3aa4438 c86308d8c1c01291172e51b9874eae02a9745e81 Mary Perry <83845130+mmelines@users.noreply.github.com> 1694184300 -0400	commit: added views
+c86308d8c1c01291172e51b9874eae02a9745e81 4f8c89bf6f319fc101fa0ac3b2e04af056416fda Mary Perry <83845130+mmelines@users.noreply.github.com> 1694188759 -0400	commit: fixed the agregious sheets errors
+4f8c89bf6f319fc101fa0ac3b2e04af056416fda f36a53a3a84fb879a396ca09a9f26227750dbee8 Mary Perry <83845130+mmelines@users.noreply.github.com> 1694192682 -0400	commit: passes gives back successful response for the tasks.display page test with data passed to route()
+f36a53a3a84fb879a396ca09a9f26227750dbee8 ea49752c2cecf7342b8dec7cbf4bbc303c14c4c4 Mary Perry <83845130+mmelines@users.noreply.github.com> 1694702408 -0400	commit: upload wireframes
+ea49752c2cecf7342b8dec7cbf4bbc303c14c4c4 50b326dcb13ed21e81d75656aa610606be37cbc7 Mary Perry <83845130+mmelines@users.noreply.github.com> 1694729411 -0400	commit: updated much
