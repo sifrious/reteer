@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -16,8 +17,25 @@ class TaskFactory extends Factory
      */
     public function definition(): array
     {
+        // get a date sometime in the next two months
+        $currentDateTime = Carbon::now();
+        $dateTime = $currentDateTime->addDays(rand(2, 60))->toDateString();
+        $currentDateTime = $currentDateTime->toDateString();
+        $name = $this->faker->firstName();
         return [
-            //
+            'sheets_created_at' => "",
+            'sheets_id' => $name . $currentDateTime,
+            'name' => $this->faker->randomDigitNotNull(),
+            'author' => $this->faker->firstName(),
+            'start_date' => $dateTime,
+            'start_time' => $dateTime,
+            'public' => rand(0, 1) == 1,
+            'client_address' => $this->faker->streetAddress(),
+            'task_description' => $this->faker->text(),
+            'destination' => $this->faker->streetAddress(),
+            'volunteer' => "",
+            'status' => "unassigned",
+            'contact_information' => $this->faker->text(),
         ];
     }
 }
