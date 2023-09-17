@@ -130,8 +130,8 @@ class TaskController extends Controller
         $rawData = array_reverse($sheetData);
         $sheet_id = null;
         $google_sheets_id = 8;
-        $google_sheets_row_number = 10;
         $row_number = -1;
+        $i = count($rawData);
         foreach ($rawData as $rawRow) {
             $row = array_merge($rawRow, array_fill(count($rawRow), 11 - count($rawRow), ""));
             try {
@@ -143,8 +143,8 @@ class TaskController extends Controller
                 if ($row[$google_sheets_id] == $task->sheets_id) {
                     try {
                         $sheet_id = $row[$google_sheets_id];
-                        $row_number = $row[$google_sheets_row_number];
                         dd($sheet_id . " updated sheet id");
+                        $i = $i - 1;
                         break;
                     } catch (Exception $e) {
                         dump("no row number value" . $e);
@@ -159,7 +159,7 @@ class TaskController extends Controller
         dd($sheet_id);
         if ($row_number != null) {
             $task->sheets_id = $sheet_id;
-            $task->sheets_row = $row_number;
+            $task->sheets_row = $i + 1;
             $task->save();
             return view('tasks.confirmnew', ['task' => $task, 'status' => 'success']);
         } else {
