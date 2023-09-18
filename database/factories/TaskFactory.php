@@ -22,9 +22,10 @@ class TaskFactory extends Factory
         $dateTime = $currentDateTime->addDays(rand(2, 60))->toDateString();
         $currentDateTime = $currentDateTime->toDateString();
         $name = $this->faker->firstName();
+        $sheetsId = $name . $currentDateTime;
         return [
             'sheets_created_at' => "",
-            'sheets_id' => $name . $currentDateTime,
+            'sheets_id' => $sheetsId,
             'name' => $this->faker->randomDigitNotNull(),
             'author' => $this->faker->firstName(),
             'start_date' => $dateTime,

@@ -70,7 +70,7 @@ class TaskController extends Controller
     {
         $user = $request->user();
         $userTasks = Task::all(); // change this when assignment is working
-        return view('tasks.display', ['task' => $userTasks, 'user' => $user]);
+        return view('tasks.display', ['tasks' => $userTasks, 'user' => $user]);
     }
 
     public function show(Request $request, Task $task)
@@ -87,12 +87,6 @@ class TaskController extends Controller
         ]);
     }
 
-    public function confirmEdit(Request $request, Task $task)
-    {
-        dump($task);
-        return "saving task to google sheets";
-    }
-
     public function update(Request $request, Task $task)
     {
 
@@ -107,6 +101,17 @@ class TaskController extends Controller
             'volunteer',
         ]));
         return redirect("tasks/$task->id");
+    }
+
+    public function confirmEdit(Request $request, Task $task)
+    {
+        // dump($task);
+        return "saving task to google sheets";
+    }
+
+    public function confirmEditFromUrl(Request $request, Task $task)
+    {
+        return "edit from path";
     }
 
     public function create(Request $request)
@@ -135,33 +140,39 @@ class TaskController extends Controller
         foreach ($rawData as $rawRow) {
             $row = array_merge($rawRow, array_fill(count($rawRow), 11 - count($rawRow), ""));
             try {
-                dump("SHEETS ID: ");
-                dump($row);
-                dump("TASK SHEETS ID: ");
-                dump($task);
-                dump("compare $row[$google_sheets_id] to $task->sheets_id");
+                // dump("SHEETS ID: ");
+                // dump($row);
+                // dump("TASK SHEETS ID: ");
+                // dump($task);
+                // dump("compare $row[$google_sheets_id] to $task->sheets_id");
                 if ($row[$google_sheets_id] == $task->sheets_id) {
                     try {
                         $sheet_id = $row[$google_sheets_id];
-                        dd($sheet_id . " updated sheet id");
+                        // dd($sheet_id . " updated sheet id");
                         $i = $i - 1;
                         break;
                     } catch (Exception $e) {
-                        dump("no row number value" . $e);
+                        // dump("no row number value" . $e);
                     }
                 }
-                dump($rawRow);
+                // dump($rawRow);
             } catch (Exception $e) {
-                dump("no sheet id value", $e);
+                // dump("no sheet id value", $e);
             };
         };
-        dump($rawData);
-        dd($sheet_id);
+        // dump($rawData);
+        // dd($sheet_id);
+        $user = $request->user();
         if ($row_number != null) {
-            $task->sheets_id = $sheet_id;
-            $task->sheets_row = $i + 1;
-            $task->save();
-            return view('tasks.confirmnew', ['task' => $task, 'status' => 'success']);
+            if (strlen($sheet_id > 0)) {
+                $task->sheets_id = $sheet_id;
+                $task->sheets_row = $i + 1;
+                $task->save();
+                return view('tasks.confirmnew', ['task' => $task, 'user' => $user, 'status' => 'success']);
+            } else {
+                $task->save();
+                return view('tasks.confirmnew', ['task' => $task, 'user' => $user,  'status' => 'failure']);
+            }
         } else {
             return view('tasks.confirmnew', ['task' => null, 'status' => 'error']);
         };
@@ -229,7 +240,7 @@ class TaskController extends Controller
 
         // save log entry
         $values_string = '["' . implode(',"', $value_array) . ']';
-        dump($values_string);
+        // dump($values_string);
         $log_values = new ValueRange(['values' => [
             [
                 'web app',
@@ -250,5 +261,10 @@ class TaskController extends Controller
     {
         $task_json = $task->toJson(); // create json object for api call
         return view('tasks.confirmNew');
+    }
+
+    public function confirmStoreFromUrl(Request $request, Task $task)
+    {
+        return "store from path";
     }
 }
