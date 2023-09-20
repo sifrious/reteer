@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Google\Client;
 use App\Models\Task;
+use Exception;
 use Google\Service\Sheets;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
@@ -47,11 +48,14 @@ class GetSheet extends Command
         $stagedValues = collect($rawData)
             ->skip(1)
             ->map(function ($taskValues) use ($header) {
-                //dump($taskValues);
-                dump(count($taskValues));
-                $newArray = array_fill(count($taskValues), (count($header) - count($taskValues)), null);
-                $taskArray = array_combine($header, array_merge($taskValues, $newArray));
-                return $taskArray;
+                try {
+                    $newArray = array_fill(count($taskValues), (count($header) - count($taskValues)), null);
+                    $taskArray = array_combine($header, array_merge($taskValues, $newArray));
+                    return $taskArray;
+                } catch (Exception $e) {
+                    dump($taskValues);
+                    return null;
+                };
             })
             ->filter(function (array $row) {
                 return $row['task_description'] ?? '' != '';
