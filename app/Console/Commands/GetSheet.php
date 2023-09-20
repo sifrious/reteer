@@ -49,7 +49,9 @@ class GetSheet extends Command
             ->skip(1)
             ->map(function ($taskValues) use ($header) {
                 try {
-                    $newArray = array_fill(count($taskValues), (count($header) - count($taskValues)), null);
+                    if (count($header) - count($taskValues) > 0) {
+                        $newArray = array_fill(count($taskValues), (count($header) - count($taskValues)), null);
+                    }
                     $taskArray = array_combine($header, array_merge($taskValues, $newArray));
                     return $taskArray;
                 } catch (Exception $e) {
