@@ -48,7 +48,7 @@ class GetSheet extends Command
         $stagedValues = collect($rawData)
             ->skip(1)
             ->map(function ($taskValues) use ($header) {
-                if (count($header) - count($taskValues) > 0) {
+                if (count($header) - count($taskValues) >= 0) {
                     $newArray = array_fill(count($taskValues), (count($header) - count($taskValues)), null);
                     $taskArray = array_combine($header, array_merge($taskValues, $newArray));
                 } else {
