@@ -52,10 +52,6 @@ Route::middleware([
         [TaskController::class, 'confirmCreate']
     )->name('tasks.confirmCreate');
     Route::post(
-        '/tasks/{task}/new',
-        [TaskController::class, 'confirmCreateFromUrl']
-    )->name('tasks.confirmCreate');
-    Route::post(
         '/tasks/new',
         [TaskController::class, 'store']
     )->name('tasks.store');
@@ -68,10 +64,6 @@ Route::middleware([
         '/tasks/{task}/edit',
         [TaskController::class, 'edit']
     )->name('tasks.edit');
-    Route::post(
-        '/tasks/{task}/edit',
-        [TaskController::class, 'update']
-    )->name('tasks.update');
     Route::get(
         '/tasks/{task}/update',
         [TaskController::class, 'confirmEdit']
