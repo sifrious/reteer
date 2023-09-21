@@ -229,8 +229,16 @@ class TaskController extends Controller
             return $value ?? '';
         });
         $values = new ValueRange(['values' => [
-            $value_array,
-
+            $task->start_date,
+            $task->start_time,
+            $task->client_address,
+            $task->task_description,
+            $task->destination,
+            $task->volunteer,
+            $task->status,
+            $task->contact_information,
+            $task->sheets_id,
+            $task->author,
         ]]);
 
         $options = ['valueInputOption' => 'RAW'];
