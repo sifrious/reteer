@@ -262,12 +262,13 @@ class TaskController extends Controller
             [
                 'web app',
                 'Task Tracking for Sign Up',
-                now(),
+                now()->toDateString(),
                 'PLACEHOLDER',
                 $values_string,
                 $task->sheets_id,
             ],
         ]]);
+        dump($log_values);
 
         $spreadsheetValues->append(config('sheets.id'), config('sheets.names.log'), $log_values, $options);
 
