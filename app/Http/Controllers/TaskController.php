@@ -131,14 +131,23 @@ class TaskController extends Controller
         $spreadsheet = new Sheets($client);
         $spreadsheetValues = $spreadsheet->spreadsheets_values;
 
+        $header = Arr::map($rawData[0], function (string $item) {
+            return Str::lower(str_replace(["(", ")", "*"], '', str_replace([" ", "\n", "__"], "_", $item)));
+        });
+
         $sheetData = $spreadsheetValues->get(config('sheets.id'), config('sheets.names.tasks'))->getValues();
         $rawData = array_reverse($sheetData);
         $sheet_id = null;
         $google_sheets_id = 8;
         $row_number = -1;
         $i = count($rawData);
-        foreach ($rawData as $rawRow) {
-            $row = array_merge($rawRow, array_fill(count($rawRow), 11 - count($rawRow), ""));
+        foreach ($rawData as $taskValues) {
+            $taskArray = $taskValues;
+            if (count($header) - count($taskValues) >= 0) {
+                $newArray = array_fill(count($taskValues), (count($header) - count($taskValues)), null);
+                $taskArray = array_combine($header, array_merge($taskValues, $newArray));
+            }
+            $row = $taskArray;
             try {
                 // dump("SHEETS ID: ");
                 // dump($row);
