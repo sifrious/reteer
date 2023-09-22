@@ -9,7 +9,7 @@
         <div id='col-left' class="p-3 w-full">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-2">
                 <h1 class="w-full text-2xl font-bold p-2">
-                    Create New Task THIS IS LOCAL
+                    Create New Task
                 </h1>
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-4 ml-0 m-auto w-full">
                     <form class="grid grid-cols-4 gap-3 w-full sm:w-full" method="POST">
