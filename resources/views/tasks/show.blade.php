@@ -13,14 +13,14 @@
                         Task: {{ $task->name }}
                     @endif
                 </h1>
-                <div class="pl-10">
+                <div class="pl-10 hidden">
                     @if ($task->volunteer != '')
                         Assigned to {{ $task->volunteer }}
                     @else
                         <span class="text-bold text-lg text-red-700">We need help with this!</span>
                     @endif
                 </div>
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg w-4/5 p-4 ml-4 m-auto">
+                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg w-4/5 p-4 ml-0 m-auto">
                     <div class="grid grid-cols-[max-content_1fr] gap-3 w-full">
                         {{-- Task Description Row --}}
                         @if ($task->task_description != '')
