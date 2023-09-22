@@ -168,13 +168,13 @@ class TaskController extends Controller
                 $task->sheets_id = $sheet_id;
                 $task->sheets_row = $i + 1;
                 $task->save();
-                return view('tasks.confirmnew', ['task' => $task, 'user' => $user, 'status' => 'success']);
+                return view('tasks.confirmCreate', ['task' => $task, 'user' => $user, 'status' => 'success']);
             } else {
                 $task->save();
-                return view('tasks.confirmnew', ['task' => $task, 'user' => $user,  'status' => 'failure']);
+                return view('tasks.confirmCreate', ['task' => $task, 'user' => $user,  'status' => 'failure']);
             }
         } else {
-            return view('tasks.confirmnew', ['task' => null, 'status' => 'error']);
+            return view('tasks.confirmCreate', ['task' => null, 'status' => 'error']);
         };
         return "hello world - created task";
     }
