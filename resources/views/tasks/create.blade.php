@@ -9,10 +9,10 @@
         <div id='col-left' class="p-3 w-full">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-2">
                 <h1 class="w-full text-2xl font-bold p-2">
-                    Create New Task
+                    Create New Task THIS IS LOCAL
                 </h1>
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-4 ml-0 m-auto w-full">
-                    <form class="grid grid-cols-4 gap-3 w-full sm:w-full">
+                    <form class="grid grid-cols-4 gap-3 w-full sm:w-full" method="POST">
                         @csrf
                         <div class="col-span-4">
                             <div class="flex flex-col flex-nowrap">
@@ -20,8 +20,6 @@
                                     <label for="task_description" class="w-full">Description</label>
                                     <small>(required)</small>
                                 </div>
-                                <input name="task_description" required id="task_description" value=""
-                                    type="textarea" />
                                 <textarea required id="task_description" name="task_description"> </textarea>
                             </div>
                         </div>
@@ -61,20 +59,18 @@
                             <input name="contact_information" id="contact_information" value="" type="text"
                                 class="w-full" />
                         </div>
+                        <div class="flex flex-column w-full place-content-start">
+                            <div class="p-3 w-full block">
+                                <label for="name">Enter a name for the task you can use to find it later.</label>
+                                <small>(Optional)</small>
+                            </div>
+                            <input name="name" id="name" value="" type="text" class="w-3/5" />
+                        </div>
+                        <div class="w-full flex flex-row place-content-center">
+                            <input class="border-2 border-black rounded-lg bg-white w-2/5 p-3 m-2 text-xl"
+                                type="submit" value="Save Task" />
+                        </div>
                     </form>
                 </div>
-                <div class="flex flex-column w-full place-content-start">
-                    <div class="p-3 w-full block">
-                        <label for="name">Enter a name for the task you can use to find it later.</label>
-                        <small>(Optional)</small>
-                    </div>
-                    <input name="name" id="name" value="" type="text" class="w-3/5" />
-                </div>
             </div>
-
-            <div class="w-full flex flex-row place-content-center">
-                <input class="border-2 border-black rounded-lg bg-white w-2/5 p-3 m-2 text-xl" type="submit"
-                    value="Save Task" />
-            </div>
-        </div>
 </x-app-layout>
