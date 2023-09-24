@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Google\Client;
 use App\Models\Task;
+use Carbon\Carbon;
 use Exception;
 use Google\Service\Sheets;
 use Illuminate\Support\Arr;
@@ -62,7 +63,7 @@ class GetSheet extends Command
             ->map(function ($taskValues, $i) {
                 $raw_user = substr($taskValues['id_-_do_not_edit'], 0, -14);
                 return [
-                    'sheets_id' => $taskValues['id_-_do_not_edit'],
+                    'sheets_id' => $taskValues['id_-_do_not_edit'] == '' ? "app" . Str::uuid() : $taskValues['id_-_do_not_edit'],
                     'sheets_row' => $taskValues["1"],
                     'author' => $raw_user,
                     'sheets_created_at' => substr($taskValues['id_-_do_not_edit'], -14),
