@@ -14,6 +14,5 @@
                 {{ __('Already registered?') }}
             </a>
         </div>
-        </form>
     </x-authentication-card>
 </x-guest-layout>
