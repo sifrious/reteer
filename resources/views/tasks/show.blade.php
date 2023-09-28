@@ -1,9 +1,27 @@
 <x-app-layout>
     <div class="flex">
         <div id="col-right" class=" w-1/4 flex flex-column flex-wrap">
-            <button class="border-2 border-black bg-white p-3 text-2xl rounded-lg font-bold m-auto">
-                Volunteer Now
-            </button>
+            @if ($task->volunteer_id === $user->volunteer->id)
+                Thank you for signing up!
+                <a href="/tasks/{{ $task->id }}/unvolunteer">
+                    <div
+                        class="border-2 border-black bg-white hover:bg-orange-200 p-3 text-2xl rounded-lg font-bold m-auto">
+                        Assigned to you
+                    </div>
+                </a>
+                <sm>Had a change of plans? You can remove this assignment by clicking the button above.</sm>
+            @elseif ($task->volunteer_id)
+                <div class="border-2 border-black bg-white hover:bg-orange-200 p-3 text-2xl rounded-lg font-bold m-auto">
+                    Assigned to {{ $task->volunteer->name }}
+                </div>
+            @else
+                <a href="/tasks/{{ $task->id }}/volunteer">
+                    <button
+                        class="border-2 border-black bg-white hover:bg-orange-200 p-3 text-2xl rounded-lg font-bold m-auto">
+                        Volunteer Now
+                    </button>
+                </a>
+            @endif
         </div>
         <div id='col-left' class=" w-3/4">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-2">

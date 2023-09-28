@@ -89,6 +89,11 @@ Route::middleware([
         '/tasks/{task}/update/',
         [TaskController::class, 'confirmEditFromUrl']
     )->name('tasks.update');
+    // update volunteer on existing task
+    Route::get(
+        '/tasks/{task}/volunteer',
+        [TaskController::class, 'volunteer']
+    )->name('tasks.volunteer');
 });
 
 if (App::environment('production')) {

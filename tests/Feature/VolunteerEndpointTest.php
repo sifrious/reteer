@@ -6,12 +6,12 @@ use App\Models\Team;
 
 use function Pest\Laravel\{get};
 
-it('gives back successful redirect response for unauthenticated users for the tasks.update page', function () {
+it('gives back successful redirect response for unauthenticated users for the tasks.volunteer page', function () {
     $task = Task::factory()->create(['task_description' => 'Test Task 1', 'sheets_id' => 1, 'public' => false]);
-    get(route('tasks.update', ['task' => $task]))->assertStatus(302);
+    get(route('tasks.volunteer', ['task' => $task]))->assertStatus(302);
 });
 
-it('returns 302 on GET request for authenticated user @ tasks.update', function () {
+it('returns 302 on GET request for authenticated user @ tasks.volunteer', function () {
     // Arrange
     $user = User::factory()
         ->hasAttached(
@@ -25,6 +25,6 @@ it('returns 302 on GET request for authenticated user @ tasks.update', function 
 
     // Act & Assert
     $this->actingAs($user)
-        ->get(route('tasks.update', ['task' => $task, 'user' => $user]))
-        ->assertOk();
+        ->get(route('tasks.volunteer', ['task' => $task, 'user' => $user]))
+        ->assertRedirect();
 });
