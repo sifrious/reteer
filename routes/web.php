@@ -90,3 +90,12 @@ Route::middleware([
         [TaskController::class, 'confirmEditFromUrl']
     )->name('tasks.update');
 });
+
+if (App::environment('production')) {
+    Route::post(
+        '/register',
+        function () {
+            return "gg";
+        }
+    );
+}
