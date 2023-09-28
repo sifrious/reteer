@@ -78,6 +78,7 @@ class TaskController extends Controller
     {
         return view('tasks.show', [
             'task' => $task,
+            'user' => $request->user(),
         ]);
     }
 
@@ -278,4 +279,16 @@ class TaskController extends Controller
         $sheet->getUpcomingTasksSheet();
         return 'test page';
     }
+<<<<<<< HEAD
+=======
+    public function volunteer(Request $request, Task $task)
+    {
+        $volunteer = $request->user()->volunteer;
+        dump($volunteer);
+        $task->volunteer_id = $volunteer->id;
+        $task->save();
+        dump($task);
+        return redirect("tasks/$task->id");
+    }
+>>>>>>> newservice
 }
