@@ -94,6 +94,10 @@ Route::middleware([
         '/tasks/{task}/volunteer',
         [TaskController::class, 'volunteer']
     )->name('tasks.volunteer');
+    Route::get(
+        '/tasks/{task}/unvolunteer',
+        [TaskController::class, 'unvolunteer']
+    )->name('tasks.unvolunteer');
 });
 
 if (App::environment('production')) {
