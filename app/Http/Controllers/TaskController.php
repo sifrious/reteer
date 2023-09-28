@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Task;
 use App\Models\User;
+use App\Services\GoogleSheetsTasks;
 use Exception;
 use Google\Client;
 use Google\Service\Sheets;
@@ -18,7 +19,7 @@ class TaskController extends Controller
     {
         return view('tasks.index', [
             'tasks' => Task::all(),
-            'count' => Task::where('volunteer', '=', null)->count(),
+            'count' => Task::where('volunteer_id', '=', null)->count(),
         ]);
     }
 
@@ -98,7 +99,7 @@ class TaskController extends Controller
             'client_address',
             'destination',
             'contact_information',
-            'volunteer',
+            'volunteer_id',
         ]));
         return redirect("tasks/$task->id");
     }
@@ -122,7 +123,6 @@ class TaskController extends Controller
     public function confirmCreate(Request $request, Task $task)
     {
         sleep(3);
-
         $client = new Client();
         $client->setApplicationName('reteer-app');
         $client->setScopes('https://www.googleapis.com/auth/spreadsheets');
@@ -131,23 +131,18 @@ class TaskController extends Controller
         $spreadsheet = new Sheets($client);
         $spreadsheetValues = $spreadsheet->spreadsheets_values;
 
-        $header = Arr::map($rawData[0], function (string $item) {
-            return Str::lower(str_replace(["(", ")", "*"], '', str_replace([" ", "\n", "__"], "_", $item)));
-        });
-
         $sheetData = $spreadsheetValues->get(config('sheets.id'), config('sheets.names.tasks'))->getValues();
         $rawData = array_reverse($sheetData);
         $sheet_id = null;
         $google_sheets_id = 8;
         $row_number = -1;
         $i = count($rawData);
-        foreach ($rawData as $taskValues) {
-            $taskArray = $taskValues;
-            if (count($header) - count($taskValues) >= 0) {
-                $newArray = array_fill(count($taskValues), (count($header) - count($taskValues)), null);
-                $taskArray = array_combine($header, array_merge($taskValues, $newArray));
+        foreach ($rawData as $rawRow) {
+            if (count($rawRow) < 11) {
+                $row = array_merge($rawRow, array_fill(count($rawRow), 11 - count($rawRow), ""));
+            } else {
+                $row = $rawRow;
             }
-            $row = $taskArray;
             try {
                 // dump("SHEETS ID: ");
                 // dump($row);
@@ -172,6 +167,7 @@ class TaskController extends Controller
         // dump($rawData);
         // dd($sheet_id);
         $user = $request->user();
+
         if ($row_number != null) {
             if (strlen($sheet_id > 0)) {
                 $task->sheets_id = $sheet_id;
@@ -228,7 +224,7 @@ class TaskController extends Controller
             $task->client_address,
             $task->task_description,
             $task->destination,
-            $task->volunteer,
+            $task->volunteer_id,
             $task->status,
             $task->contact_information,
             $task->sheets_id,
@@ -238,16 +234,8 @@ class TaskController extends Controller
             return $value ?? '';
         });
         $values = new ValueRange(['values' => [
-            $task->start_date,
-            $task->start_time,
-            $task->client_address,
-            $task->task_description,
-            $task->destination,
-            $task->volunteer,
-            $task->status,
-            $task->contact_information,
-            $task->sheets_id,
-            $task->author,
+            $value_array,
+
         ]]);
 
         $options = ['valueInputOption' => 'RAW'];
@@ -262,13 +250,12 @@ class TaskController extends Controller
             [
                 'web app',
                 'Task Tracking for Sign Up',
-                now()->toDateString(),
+                now(),
                 'PLACEHOLDER',
                 $values_string,
                 $task->sheets_id,
             ],
         ]]);
-        dump($log_values);
 
         $spreadsheetValues->append(config('sheets.id'), config('sheets.names.log'), $log_values, $options);
 
@@ -284,5 +271,11 @@ class TaskController extends Controller
     public function confirmStoreFromUrl(Request $request, Task $task)
     {
         return "store from path";
+    }
+
+    public function test(Request $request, GoogleSheetsTasks $sheet)
+    {
+        $sheet->getUpcomingTasksSheet();
+        return 'test page';
     }
 }
