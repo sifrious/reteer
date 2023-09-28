@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TaskController;
 
@@ -23,6 +24,13 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
+    if (!App::environment('production')) {
+        // The environment is local
+        Route::get(
+            '/test', //Test Page
+            [TaskController::class, 'test']
+        );
+    }
     //user dashboard
     Route::get(
         '/dashboard',

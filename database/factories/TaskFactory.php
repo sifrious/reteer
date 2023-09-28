@@ -34,7 +34,7 @@ class TaskFactory extends Factory
             'client_address' => $this->faker->streetAddress(),
             'task_description' => $this->faker->text(),
             'destination' => $this->faker->streetAddress(),
-            'volunteer' => "",
+            'volunteer_id' => null,
             'status' => "unassigned",
             'contact_information' => $this->faker->text(),
         ];

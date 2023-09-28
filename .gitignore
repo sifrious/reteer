@@ -20,3 +20,4 @@ credentials*
 /.idea
 /.vscode
 /.vite
+.DS_Store

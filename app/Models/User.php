@@ -59,6 +59,20 @@ class User extends Authenticatable
         'profile_photo_url',
     ];
 
+    /**
+     * The "booted" method of the model.
+     */
+    protected static function booted(): void
+    {
+        static::created(function (User $user) {
+            Volunteer::create([
+                'user_id' => $user->id,
+                'email' => $user->email,
+                'name' => $user->name,
+            ]);
+        });
+    }
+
     public function volunteer()
     {
         return $this->hasOne(Volunteer::class);

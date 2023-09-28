@@ -11,9 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('tasks', function (Blueprint $table) {
+        Schema::table('users', function (Blueprint $table) {
             $table->foreignId('volunteer_id')->nullable();
-            $table->dropColumn('volunteer');
         });
     }
 
@@ -22,9 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('tasks', function (Blueprint $table) {
+        Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('volunteer_id');
-            $table->string('volunteer')->nullable();
         });
     }
 };

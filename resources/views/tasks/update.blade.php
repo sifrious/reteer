@@ -44,7 +44,7 @@
                         </div>
                         <div id="volunteer-section">
                             <span>Volunteer:</span>
-                            {{ $task->volunteer }}
+                            {{ $task->volunteer->name }}
                         </div>
                         <div id="description-section">
                             @if ($task->task_description != '')

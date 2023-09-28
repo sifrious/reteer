@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Task;
 use App\Models\User;
+use App\Services\GoogleSheetsTasks;
 use Exception;
 use Google\Client;
 use Google\Service\Sheets;
@@ -18,7 +19,7 @@ class TaskController extends Controller
     {
         return view('tasks.index', [
             'tasks' => Task::all(),
-            'count' => Task::where('volunteer', '=', null)->count(),
+            'count' => Task::where('volunteer_id', '=', null)->count(),
         ]);
     }
 
@@ -98,7 +99,7 @@ class TaskController extends Controller
             'client_address',
             'destination',
             'contact_information',
-            'volunteer',
+            'volunteer_id',
         ]));
         return redirect("tasks/$task->id");
     }
@@ -122,7 +123,6 @@ class TaskController extends Controller
     public function confirmCreate(Request $request, Task $task)
     {
         sleep(3);
-
         $client = new Client();
         $client->setApplicationName('reteer-app');
         $client->setScopes('https://www.googleapis.com/auth/spreadsheets');
@@ -138,7 +138,11 @@ class TaskController extends Controller
         $row_number = -1;
         $i = count($rawData);
         foreach ($rawData as $rawRow) {
-            $row = array_merge($rawRow, array_fill(count($rawRow), 11 - count($rawRow), ""));
+            if (count($rawRow) < 11) {
+                $row = array_merge($rawRow, array_fill(count($rawRow), 11 - count($rawRow), ""));
+            } else {
+                $row = $rawRow;
+            }
             try {
                 // dump("SHEETS ID: ");
                 // dump($row);
@@ -163,6 +167,7 @@ class TaskController extends Controller
         // dump($rawData);
         // dd($sheet_id);
         $user = $request->user();
+
         if ($row_number != null) {
             if (strlen($sheet_id > 0)) {
                 $task->sheets_id = $sheet_id;
@@ -219,7 +224,7 @@ class TaskController extends Controller
             $task->client_address,
             $task->task_description,
             $task->destination,
-            $task->volunteer,
+            $task->volunteer_id,
             $task->status,
             $task->contact_information,
             $task->sheets_id,
@@ -266,5 +271,11 @@ class TaskController extends Controller
     public function confirmStoreFromUrl(Request $request, Task $task)
     {
         return "store from path";
+    }
+
+    public function test(Request $request, GoogleSheetsTasks $sheet)
+    {
+        $sheet->getUpcomingTasksSheet();
+        return 'test page';
     }
 }

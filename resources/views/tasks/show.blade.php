@@ -14,8 +14,8 @@
                     @endif
                 </h1>
                 <div class="pl-10 hidden">
-                    @if ($task->volunteer != '')
-                        Assigned to {{ $task->volunteer }}
+                    @if ($task->volunteer !== null)
+                        Assigned to {{ $task->volunteer->name }}
                     @else
                         <span class="text-bold text-lg text-red-700">We need help with this!</span>
                     @endif
@@ -36,12 +36,12 @@
                             <a href="mailto:admin@reteer.org">admin@reteer.org</a>
                         @endif
                         {{-- Task --}}
-                        @if ($task->volunteer != '')
+                        @if ($task->volunteer !== null)
                             <div id="grid-volunteer-label" class="text-right">
                                 Assigned to:
                             </div>
                             <div id="grid-volunteer-value  font-bold">
-                                {{ $task->volunteer }}
+                                {{ $task->volunteer->name }}
                             </div>
                         @endif
                         {{-- Task --}}
