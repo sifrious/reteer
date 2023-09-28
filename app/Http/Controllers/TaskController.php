@@ -282,10 +282,14 @@ class TaskController extends Controller
     public function volunteer(Request $request, Task $task)
     {
         $volunteer = $request->user()->volunteer;
-        dump($volunteer);
         $task->volunteer_id = $volunteer->id;
         $task->save();
-        dump($task);
+        return redirect("tasks/$task->id");
+    }
+    public function unvolunteer(Request $request, Task $task)
+    {
+        $task->volunteer_id = null;
+        $task->save();
         return redirect("tasks/$task->id");
     }
 }
