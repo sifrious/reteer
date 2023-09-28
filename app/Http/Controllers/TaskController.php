@@ -279,8 +279,6 @@ class TaskController extends Controller
         $sheet->getUpcomingTasksSheet();
         return 'test page';
     }
-<<<<<<< HEAD
-=======
     public function volunteer(Request $request, Task $task)
     {
         $volunteer = $request->user()->volunteer;
@@ -290,5 +288,4 @@ class TaskController extends Controller
         dump($task);
         return redirect("tasks/$task->id");
     }
->>>>>>> newservice
 }
