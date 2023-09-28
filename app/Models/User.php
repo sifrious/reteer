@@ -10,6 +10,7 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Jetstream\HasTeams;
 use Laravel\Sanctum\HasApiTokens;
+use App\Models\Volunteer;
 
 class User extends Authenticatable
 {
@@ -58,6 +59,20 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+    /**
+     * The "booted" method of the model.
+     */
+    protected static function booted(): void
+    {
+        static::created(function (User $user) {
+            Volunteer::create([
+                'user_id' => $user->id,
+                'email' => $user->email,
+                'name' => $user->name,
+            ]);
+        });
+    }
 
     public function volunteer()
     {

@@ -1,36 +1,20 @@
 <?php
 
-namespace App\Console\Commands;
+namespace App\Services;
 
-use Google\Client;
 use App\Models\Task;
-use Carbon\Carbon;
 use Exception;
+use Google\Client;
 use Google\Service\Sheets;
+use Illuminate\Http\Request;
+use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Console\Command;
 
-class GetSheet extends Command
+class GoogleSheetsTasks
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
-    protected $signature = 'app:get-sheet';
-
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Return values from google sheet through API call';
-
-    /**
-     * Execute the console command.
-     */
-    public function handle()
+    private function getSheet($sheetConfig)
     {
         $client = new Client();
         $client->setApplicationName('reteer-app');
@@ -40,16 +24,20 @@ class GetSheet extends Command
         $spreadsheet = new Sheets($client);
         $spreadsheetValues = $spreadsheet->spreadsheets_values;
 
+        $sheetData = $spreadsheetValues->get(config('sheets.id'), $sheetConfig)->getValues();
+        $rawData = array_reverse($sheetData);
+
         $rawData = $spreadsheetValues->get(config('sheets.id'), config('sheets.names.tasks'))->getValues();
 
         $header = Arr::map($rawData[0], function (string $item) {
             return Str::lower(str_replace(["(", ")", "*"], '', str_replace([" ", "\n", "__"], "_", $item)));
         });
+        // create named array of indexes to use for headers with the sheet
         $headerLookup = Arr::map($header, function (string $item, $i) {
             return [$item => $i];
         });
 
-        // $updatedValues = [$header]; TODO refactor to seperate function in Service Class
+        $updatedValues = [$header];
         $stagedValues = collect($rawData)
             ->skip(1)
             ->map(function ($taskValues) use ($header) {
@@ -61,26 +49,26 @@ class GetSheet extends Command
                 }
                 return $taskArray;
             })
-            ->map(function ($taskValues, $i) use ($headerLookup) {
+            ->map(function ($taskValues, $i) use ($updatedValues, $headerLookup) {
                 $raw_user = substr($taskValues['id_-_do_not_edit'], 0, -14);
                 $date_of_appointment = Carbon::parse($taskValues['date_of_appointment']);
                 $newRow = array_fill(0, count($taskValues), '');
-                // FOR REFERENCE 
-                // $desired_values = [
-                //     'date_of_appointment' => 'start_date',
-                //     'time' => 'start_time',
-                //     'client_address' => 'client_address',
-                //     'task_description' => 'task_description',
-                //     'destination' => 'task_destination',
-                //     'volunteer_or_case_manager' => 'volunteer_id',
-                //     'task_hours' => '',
-                //     'task_mileage' => '',
-                //     'status' => 'status',
-                //     'contact_information' => 'contact_information',
-                //     'id_-_do_not_edit' => 'sheets_id',
-                //     'app_user_name' => 'sheets_user',
-                //     'row_number' => 'sheets_row',
-                // ];
+                //
+                $desired_values = [
+                    'date_of_appointment' => 'start_date',
+                    'time' => 'start_time',
+                    'client_address' => 'client_address',
+                    'task_description' => 'task_description',
+                    'destination' => 'task_destination',
+                    'volunteer_or_case_manager' => 'volunteer',
+                    'task_hours' => '',
+                    'task_mileage' => '',
+                    'status' => 'status',
+                    'contact_information' => 'contact_information',
+                    'id_-_do_not_edit' => 'sheets_id',
+                    'app_user_name' => 'sheets_user',
+                    'row_number' => 'sheets_row',
+                ];
                 // 
                 foreach ($headerLookup as $index => $value) {
                     dump($taskValues);
@@ -108,7 +96,7 @@ class GetSheet extends Command
                     'client_address' => $taskValues['client_address'],
                     'task_description' => $taskValues['task_description'],
                     'destination' => $taskValues['destination'],
-                    'volunteer_id' => $taskValues['volunteer_or_case_manager'],
+                    'volunteer' => $taskValues['volunteer_or_case_manager'],
                     'status' => $taskValues['status'],
                     'contact_information' => $taskValues['contact_information'],
                 ];
@@ -116,19 +104,12 @@ class GetSheet extends Command
             ->filter(function (array $row) {
                 return $row['task_description'] ?? '' != '';
             });
-        // dump($stagedValues);
+    }
 
-        Task::query()->upsert($stagedValues->all(), 'sheets_id', [
-            'sheets_row',
-            'author',
-            'start_date',
-            'start_time',
-            'client_address',
-            'task_description',
-            'destination',
-            'volunteer_id',
-            'status',
-            'contact_information',
-        ]);
+    public function getUpcomingTasksSheet()
+    {
+        $results = $this->getSheet(config('sheets.names.tasks'));
+        dump($results);
+        return $results;
     }
 }

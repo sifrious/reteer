@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TaskController;
 
@@ -23,6 +24,13 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
+    if (!App::environment('production')) {
+        // The environment is local
+        Route::get(
+            '/test', //Test Page
+            [TaskController::class, 'test']
+        );
+    }
     //user dashboard
     Route::get(
         '/dashboard',
@@ -52,10 +60,6 @@ Route::middleware([
         [TaskController::class, 'confirmCreate']
     )->name('tasks.confirmCreate');
     Route::post(
-        '/tasks/{task}/new',
-        [TaskController::class, 'confirmCreateFromUrl']
-    )->name('tasks.confirmCreate');
-    Route::post(
         '/tasks/new',
         [TaskController::class, 'store']
     )->name('tasks.store');
@@ -68,10 +72,6 @@ Route::middleware([
         '/tasks/{task}/edit',
         [TaskController::class, 'edit']
     )->name('tasks.edit');
-    Route::post(
-        '/tasks/{task}/edit',
-        [TaskController::class, 'update']
-    )->name('tasks.update');
     Route::get(
         '/tasks/{task}/update',
         [TaskController::class, 'confirmEdit']
@@ -82,3 +82,12 @@ Route::middleware([
         [TaskController::class, 'confirmEditFromUrl']
     )->name('tasks.update');
 });
+
+if (App::environment('production')) {
+    Route::post(
+        '/register',
+        function () {
+            return "gg";
+        }
+    );
+}

@@ -36,12 +36,12 @@
                             <a href="mailto:admin@reteer.org">admin@reteer.org</a>
                         @endif
                         {{-- Task --}}
-                        @if ($task->volunteer != '')
+                        @if ($task->volunteer !== null)
                             <div id="grid-volunteer-label" class="text-right">
                                 Assigned to:
                             </div>
                             <div id="grid-volunteer-value  font-bold">
-                                {{ $task->volunteer }}
+                                {{ $task->volunteer->name }}
                             </div>
                         @endif
                         {{-- Task --}}
