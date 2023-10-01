@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\SelfVolunteerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -84,11 +85,11 @@ Route::middleware([
     // update volunteer on existing task
     Route::get(
         '/tasks/{task}/volunteer',
-        [TaskController::class, 'volunteer']
+        [SelfVolunteerController::class, '__invoke']
     )->name('tasks.volunteer');
     Route::get(
         '/tasks/{task}/unvolunteer',
-        [TaskController::class, 'unvolunteer']
+        [SelfVolunteerController::class, '__invoke']
     )->name('tasks.unvolunteer');
 });
 
