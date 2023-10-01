@@ -10,6 +10,7 @@ use App\Models\Task;
 class Volunteer extends Model
 {
     use HasFactory;
+    public $isSushi = false;
     protected $guarded = [];
 
     public function user()

@@ -12,4 +12,5 @@ class Membership extends JetstreamMembership
      * @var bool
      */
     public $incrementing = true;
+    public $isSushi = false;
 }

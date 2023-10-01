@@ -10,6 +10,8 @@ class GoogleVolunteer extends Model
 {
     use Sushi;
 
+    public $isSushi = true;
+
     public function getRows()
     {
         $sushi_data = $this->fetchTasksSheet();

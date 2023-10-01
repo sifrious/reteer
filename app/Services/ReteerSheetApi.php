@@ -104,6 +104,7 @@ class ReteerSheetApi
     private function getExpandedDataArray()
     {
         $associatedData = $this->configuration["associatedData"];
+        dump($associatedData);
         $expandedDataArray = [];
         foreach ($associatedData as $row) {
             foreach ($row as $rowArray) {
@@ -119,6 +120,8 @@ class ReteerSheetApi
             };
         };
         $this->fetchResults = $expandedDataArray;
+        dump("results @ getExpandedDataArray");
+        dump($this->fetchResults);
         return $expandedDataArray;
     }
 
@@ -126,6 +129,8 @@ class ReteerSheetApi
     {
         $this->getAssociatedDataArray();
         $this->getExpandedDataArray();
+        dump("results @ getExpandedDataArray");
+        dump($this->fetchResults);
         return $this->fetchResults;
     }
 }
