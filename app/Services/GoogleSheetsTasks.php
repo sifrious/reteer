@@ -25,12 +25,6 @@ class GoogleSheetsTasks
         return $apiInstance;
     }
 
-    private function convertSheet(ReteerSheetApi $reteerSheetApi)
-    {
-        dump($reteerSheetApi);
-        return $reteerSheetApi->convertSheet();
-    }
-
     public function getTasksService(string $sheetConfig)
     {
         // get general sheet data
@@ -64,6 +58,7 @@ class GoogleSheetsTasks
     {
         $sheetService = $this->getTasksService('sheets.names.tasks');
         $sheetService->convertSheet();
+        dump($sheetService);
         return $sheetService->fetchResults;
     }
 

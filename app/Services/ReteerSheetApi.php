@@ -118,6 +118,7 @@ class ReteerSheetApi
                 };
             };
         };
+        dump($expandedDataArray);
         $this->fetchResults = $expandedDataArray;
         return $expandedDataArray;
     }
