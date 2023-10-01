@@ -11,6 +11,7 @@ class Task extends Model
     use HasFactory;
 
     protected $guarded = [];
+    public $isSushi = false;
 
     public function volunteer()
     {

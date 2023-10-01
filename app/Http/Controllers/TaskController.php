@@ -6,6 +6,7 @@ use App\Models\GoogleTask;
 use App\Models\GoogleVolunteer;
 use App\Models\Task;
 use App\Services\GoogleSheetsTasks;
+use App\Services\ReteerRecord;
 use Exception;
 use Google\Client;
 use Google\Service\Sheets;
@@ -276,9 +277,10 @@ class TaskController extends Controller
     public function test(Request $request, GoogleSheetsTasks $sheet)
     {
         $tasks = GoogleTask::all();
-        dump($tasks);
-        $volunteers = GoogleVolunteer::all();
-        dump($volunteers);
+        $task = new ReteerRecord(GoogleTask::find(5));
+        // dump($tasks);
+        // $volunteers = GoogleVolunteer::all();
+        // dump($volunteers);
         return 'test page';
     }
     public function volunteer(Request $request, Task $task)

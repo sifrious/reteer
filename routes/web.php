@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BasicEmailController;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TaskController;
@@ -19,7 +20,13 @@ use App\Http\Controllers\SelfVolunteerController;
 Route::get('/', function () {
     return view('welcome');
 })->name('home');
-
+if (!App::environment('production')) {
+    // The environment is local
+    Route::get(
+        '/email', //Test Page
+        [BasicEmailController::class, '__invoke']
+    );
+}
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),

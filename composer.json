@@ -13,7 +13,9 @@
         "laravel/jetstream": "^4.0",
         "laravel/sanctum": "^3.2",
         "laravel/tinker": "^2.8",
-        "livewire/livewire": "^3.0"
+        "livewire/livewire": "^3.0",
+        "symfony/http-client": "^6.3",
+        "symfony/mailgun-mailer": "^6.3"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
