@@ -2,7 +2,7 @@
     <div class="flex">
         <div id="col-right" class=" w-1/4  m-0 p-0">
             <div class="flex flex-col text-center place-content-center h-auto align-top flex-wrap pt-3">
-                @if ($task->volunteer_id === $user->volunteer->id)
+                @if ($task->volunteer_id && $task->volunteer_id === $user->volunteer->id)
                     <div class="flex flex-col text-center place-content-center m-0 p-3 w-full">
                         <a href="/tasks/{{ $task->id }}/unvolunteer" class="pb-5">
                             <div
