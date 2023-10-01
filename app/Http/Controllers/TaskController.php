@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\GoogleTask;
+use App\Models\GoogleVolunteer;
 use App\Models\Task;
-use App\Models\User;
 use App\Services\GoogleSheetsTasks;
 use Exception;
 use Google\Client;
@@ -214,8 +215,6 @@ class TaskController extends Controller
         $client->setScopes('https://www.googleapis.com/auth/spreadsheets');
         $client->setAuthConfig(base_path('credentials.json'));
         $task->action = 'create';
-
-
         $spreadsheet = new Sheets($client);
         $spreadsheetValues = $spreadsheet->spreadsheets_values;
 
@@ -276,7 +275,10 @@ class TaskController extends Controller
 
     public function test(Request $request, GoogleSheetsTasks $sheet)
     {
-        $sheet->getUpcomingTasksSheet();
+        $tasks = GoogleTask::all();
+        dump($tasks);
+        $volunteers = GoogleVolunteer::all();
+        dump($volunteers);
         return 'test page';
     }
     public function volunteer(Request $request, Task $task)
