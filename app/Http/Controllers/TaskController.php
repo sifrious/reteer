@@ -275,6 +275,7 @@ class TaskController extends Controller
     public function test(Request $request, GoogleSheetsTasks $sheet)
     {
         $tasks = GoogleTask::all();
+        dump($tasks);
         return 'test page';
     }
     public function volunteer(Request $request, Task $task)

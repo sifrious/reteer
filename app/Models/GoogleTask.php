@@ -35,6 +35,6 @@ class GoogleTask extends Model
     public function fetchTasksSheet()
     {
         $googleTasksSheet = new GoogleSheetsTasks();
-        return $googleTasksSheet->tasks["expandedDataArray"];
+        return $googleTasksSheet->tasks;
     }
 }
