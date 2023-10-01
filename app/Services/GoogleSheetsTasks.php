@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Task;
+use App\Models\GoogleTask;
 use Exception;
 use Google\Client;
 use Google\Service\Sheets;
@@ -14,7 +15,20 @@ use Illuminate\Console\Command;
 
 class GoogleSheetsTasks
 {
-    private function getSheet($sheetConfig)
+    private $upcomingTasks;
+    private $previousTasks;
+    public $tasks;
+
+    public function __construct()
+    {
+        $this->upcomingTasks = null;
+        // $this->upcomingTasks = $this->returnUpcomingTasksSheet()
+        $this->previousTasks = null;
+        // $this->previousTasks = $this->returnPreviousTasksSheet();
+        $this->tasks = $this->returnUpcomingTasksSheet();
+    }
+
+    private function getSheet(String $sheetConfig)
     {
         $client = new Client();
         $client->setApplicationName('reteer-app');
@@ -24,92 +38,143 @@ class GoogleSheetsTasks
         $spreadsheet = new Sheets($client);
         $spreadsheetValues = $spreadsheet->spreadsheets_values;
 
-        $sheetData = $spreadsheetValues->get(config('sheets.id'), $sheetConfig)->getValues();
-        $rawData = array_reverse($sheetData);
+        $rawData = $spreadsheetValues->get(config('sheets.id'), config($sheetConfig))->getValues();
+        $headerRow = array_shift($rawData);
 
-        $rawData = $spreadsheetValues->get(config('sheets.id'), config('sheets.names.tasks'))->getValues();
-
-        $header = Arr::map($rawData[0], function (string $item) {
+        // 
+        $header = Arr::map($headerRow, function (string $item) {
             return Str::lower(str_replace(["(", ")", "*"], '', str_replace([" ", "\n", "__"], "_", $item)));
         });
+
         // create named array of indexes to use for headers with the sheet
-        $headerLookup = Arr::map($header, function (string $item, $i) {
+        $lookup = Arr::map($headerRow, function (string $item, $i) {
             return [$item => $i];
         });
 
-        $updatedValues = [$header];
-        $stagedValues = collect($rawData)
-            ->skip(1)
-            ->map(function ($taskValues) use ($header) {
-                if (count($header) - count($taskValues) >= 0) {
-                    $newArray = array_fill(count($taskValues), (count($header) - count($taskValues)), null);
-                    $taskArray = array_combine($header, array_merge($taskValues, $newArray));
+        $rawData = array_reverse($rawData);
+        $row_length = array_reduce($rawData, function ($longestCount, $row) {
+            if (is_array($row)) {
+                return max($longestCount, count($row));
+            };
+            return $longestCount;
+        }, 0);
+        $normalLengthData = array_map(function ($row) use ($row_length) {
+            if (is_array($row)) {
+                if (count($row) < $row_length) {
+                    $padCount = $row_length - count($row);
+                    return array_merge($row, array_fill(0, $padCount, ""));
                 } else {
-                    return $taskValues;
+                    return $row;
+                };
+            } else {
+                return array_fill(0, $row_length, null);
+            };
+        }, $rawData);
+
+        return ['header' => $header, 'lookup' => $lookup, 'data' => $normalLengthData];
+    }
+
+    private function convertSheet(array $googleSheetDataArray)
+    {
+        $associatedData = [];
+        $expandedDataArray = [];
+        $i = 0;
+        $j = 1;
+        foreach ($googleSheetDataArray['data'] as $row) {
+            $associatedData[$i][$j] =  array_map(function ($i, $cellValue) use ($googleSheetDataArray) {
+                $column_title = $googleSheetDataArray['header'][$i];
+                if (isset($googleSheetDataArray['switch'][$column_title])) {
+                    $parameter_name = $googleSheetDataArray['switch'][$column_title];
+                } else {
+                    $parameter_name = null;
+                };
+                $value = $cellValue;
+                if ($value === '') {
+                    $value = null;
                 }
-                return $taskArray;
-            })
-            ->map(function ($taskValues, $i) use ($updatedValues, $headerLookup) {
-                $raw_user = substr($taskValues['id_-_do_not_edit'], 0, -14);
-                $date_of_appointment = Carbon::parse($taskValues['date_of_appointment']);
-                $newRow = array_fill(0, count($taskValues), '');
-                //
-                $desired_values = [
-                    'date_of_appointment' => 'start_date',
-                    'time' => 'start_time',
-                    'client_address' => 'client_address',
-                    'task_description' => 'task_description',
-                    'destination' => 'task_destination',
-                    'volunteer_or_case_manager' => 'volunteer',
-                    'task_hours' => '',
-                    'task_mileage' => '',
-                    'status' => 'status',
-                    'contact_information' => 'contact_information',
-                    'id_-_do_not_edit' => 'sheets_id',
-                    'app_user_name' => 'sheets_user',
-                    'row_number' => 'sheets_row',
+                return [
+                    'column_title' => $column_title,
+                    'parameter_name' => $parameter_name,
+                    'value' => $value,
                 ];
-                // 
-                foreach ($headerLookup as $index => $value) {
-                    dump($taskValues);
-                    dump("key " . $index);
-                    $column_name = strval(key($value));
-                    dump("value " . $column_name);
-                    $realIndex = $taskValues[$column_name];
-                    if (isset($headerLookup[$column_name])) {
-                        $newRow[$column_name] = $taskValues[$column_name];
+                return null;
+            }, array_keys($row), $row);
+            $i += 1;
+        };
+        $googleSheetDataArray['associatedData'] = $associatedData;
+        foreach ($associatedData as $row) {
+            foreach ($row as $rowArray) {
+                $newRecord = [];
+                foreach ($rowArray as $cellArray) {
+                    if (isset($cellArray['parameter_name']) && $cellArray['parameter_name'] !== null) {
+                        $newRecord[$cellArray['parameter_name']] = $cellArray['value'];
                     };
                 };
-                dump('NEW ROW');
-                dump($newRow);
-                // $newRow[$headerLookup['date_of_appointment']] = $date_of_appointment->toRfc7231String();
-                // $newRow[$headerLookup['time']] = $taskValues['time'];
-                // $newRow[$headerLookup['']] = $taskValues[''];
-                return [
-                    'sheets_id' => $taskValues['id_-_do_not_edit'] == '' ? "app" . Str::uuid() : $taskValues['id_-_do_not_edit'],
-                    'sheets_row' => $i + 1,
-                    'author' => $raw_user,
-                    'sheets_created_at' => substr($taskValues['id_-_do_not_edit'], -14),
-                    'start_date' => $date_of_appointment,
-                    'start_time' => $taskValues['time'],
-                    'public' => false,
-                    'client_address' => $taskValues['client_address'],
-                    'task_description' => $taskValues['task_description'],
-                    'destination' => $taskValues['destination'],
-                    'volunteer' => $taskValues['volunteer_or_case_manager'],
-                    'status' => $taskValues['status'],
-                    'contact_information' => $taskValues['contact_information'],
-                ];
-            })
-            ->filter(function (array $row) {
-                return $row['task_description'] ?? '' != '';
-            });
+                if (count($newRecord) > 0) {
+                    array_push($expandedDataArray, $newRecord);
+                };
+            };
+        };
+        $googleSheetDataArray['expandedDataArray'] = $expandedDataArray;
+        return $googleSheetDataArray;
     }
 
     public function getUpcomingTasksSheet()
     {
-        $results = $this->getSheet(config('sheets.names.tasks'));
-        dump($results);
+        // get general sheet data
+        $taskSheetResponse = $this->getSheet('sheets.names.tasks');
+        // define correlations between google Task data and Task model
+        $taskSheetResponse['switch'] = [
+            "date_of_appointment" => "start_date",
+            "time" => "start_time",
+            "client_address" => "address",
+            "task_description" => "task_description",
+            "destination" => "destination",
+            "task_hours" => "hours",
+            "task_mileage" => "mileage",
+            "status" => "status",
+            "contact_information" => "contact_information",
+            "id_-_do_not_edit" => "sheets_id",
+            "row_number" => "sheets_row",
+        ];
+        // define Task model functions that need to be programmatically updated or generated
+        $taskSheetResponse["generated"] = [
+            'sheets_row' => null,
+            'sheets_created_at' => null,
+            'author' => null,
+            'public' => null,
+        ];
+        return $taskSheetResponse;
+    }
+
+    public function returnUpcomingTasksSheet()
+    {
+        $currentTasks = $this->getUpcomingTasksSheet();
+        $conversion = $this->convertSheet($currentTasks);
+        return $conversion;
+    }
+
+    public function getPreviousTasksSheet()
+    {
+        $results = $this->getSheet('sheets.names.previous_tasks');
         return $results;
+    }
+
+    public function returnPreviousTasksSheet()
+    {
+        $previousTasks = $this->getPreviousTasksSheet();
+        $conversion = $this->convertSheet($previousTasks);
+        return $conversion;
+    }
+
+    public function getTaskBackup()
+    {
+        $results = $this->getSheet('sheets.names.backup');
+        return $results;
+    }
+
+    public function updateTasksSheet(GoogleTask $googleTask)
+    {
+        return null; // TODO
     }
 }
