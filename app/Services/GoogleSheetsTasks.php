@@ -58,7 +58,6 @@ class GoogleSheetsTasks
     {
         $sheetService = $this->getTasksService('sheets.names.tasks');
         $sheetService->convertSheet();
-        dump($sheetService);
         return $sheetService->fetchResults;
     }
 

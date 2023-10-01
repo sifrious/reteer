@@ -16,7 +16,7 @@
                             button
                             above.</span>
                     </div>
-                @elseif ($task->volunteer_id)
+                @elseif ($task->volunteer)
                     <div
                         class="border-2 border-black bg-white hover:bg-orange-200 p-3 text-2xl rounded-lg font-bold m-auto">
                         Assigned to {{ $task->volunteer->name }}

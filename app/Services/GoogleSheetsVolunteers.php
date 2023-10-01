@@ -48,7 +48,6 @@ class GoogleSheetsVolunteers
     {
         $sheetService = $this->getVolunteerService('sheets.names.volunteers');
         $sheetService->convertSheet();
-        dump($sheetService);
         return $sheetService->fetchResults;
     }
 
