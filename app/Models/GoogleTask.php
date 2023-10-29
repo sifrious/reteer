@@ -4,8 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use \Sushi\Sushi;
-use App\Services\GoogleSheetsTasks;
-use App\Services\ReteerRecord;
 
 class GoogleTask extends Model
 {
@@ -36,9 +34,9 @@ class GoogleTask extends Model
         }, array_keys($sushi_data), $sushi_data);
     }
 
-    public function fetchTasksSheet()
-    {
-        $googleTasksSheet = new GoogleSheetsTasks();
-        return $googleTasksSheet->tasks;
-    }
+    // public function fetchTasksSheet()
+    // {
+    //     $googleTasksSheet = new GoogleSheetsTasks();
+    //     return $googleTasksSheet->tasks;
+    // }
 }

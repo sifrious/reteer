@@ -2,11 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\GoogleTask;
-use App\Models\GoogleVolunteer;
 use App\Models\Task;
-use App\Services\GoogleSheetsTasks;
-use App\Services\ReteerRecord;
 use Exception;
 use Google\Client;
 use Google\Service\Sheets;
@@ -274,15 +270,10 @@ class TaskController extends Controller
         return "store from path";
     }
 
-    public function test(Request $request, GoogleSheetsTasks $sheet)
+    public function test(Request $request)
     {
-        $tasks = GoogleTask::all();
-        $task = new ReteerRecord(GoogleTask::find(5));
-        // dump($tasks);
-        // $volunteers = GoogleVolunteer::all();
-        // dump($volunteers);
-        return 'test page';
     }
+
     public function volunteer(Request $request, Task $task)
     {
         $volunteer = $request->user()->volunteer;
