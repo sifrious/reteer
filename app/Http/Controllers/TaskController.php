@@ -119,70 +119,6 @@ class TaskController extends Controller
         return view('tasks.create');
     }
 
-    public function confirmCreate(Request $request, Task $task)
-    {
-        sleep(3);
-        $client = new Client();
-        $client->setApplicationName('reteer-app');
-        $client->setScopes('https://www.googleapis.com/auth/spreadsheets');
-        $client->setAuthConfig(base_path('credentials.json'));
-
-        $spreadsheet = new Sheets($client);
-        $spreadsheetValues = $spreadsheet->spreadsheets_values;
-
-        $sheetData = $spreadsheetValues->get(config('sheets.id'), config('sheets.names.tasks'))->getValues();
-        $rawData = array_reverse($sheetData);
-        $sheet_id = null;
-        $google_sheets_id = 8;
-        $row_number = -1;
-        $i = count($rawData);
-        foreach ($rawData as $rawRow) {
-            if (count($rawRow) < 11) {
-                $row = array_merge($rawRow, array_fill(count($rawRow), 11 - count($rawRow), ""));
-            } else {
-                $row = $rawRow;
-            }
-            try {
-                // dump("SHEETS ID: ");
-                // dump($row);
-                // dump("TASK SHEETS ID: ");
-                // dump($task);
-                // dump("compare $row[$google_sheets_id] to $task->sheets_id");
-                if ($row[$google_sheets_id] == $task->sheets_id) {
-                    try {
-                        $sheet_id = $row[$google_sheets_id];
-                        // dd($sheet_id . " updated sheet id");
-                        $i = $i - 1;
-                        break;
-                    } catch (Exception $e) {
-                        // dump("no row number value" . $e);
-                    }
-                }
-                // dump($rawRow);
-            } catch (Exception $e) {
-                // dump("no sheet id value", $e);
-            };
-        };
-        // dump($rawData);
-        // dd($sheet_id);
-        $user = $request->user();
-
-        if ($row_number != null) {
-            if (strlen($sheet_id > 0)) {
-                $task->sheets_id = $sheet_id;
-                $task->sheets_row = $i + 1;
-                $task->save();
-                return view('tasks.confirmCreate', ['task' => $task, 'user' => $user, 'status' => 'success']);
-            } else {
-                $task->save();
-                return view('tasks.confirmCreate', ['task' => $task, 'user' => $user,  'status' => 'failure']);
-            }
-        } else {
-            return view('tasks.confirmCreate', ['task' => null, 'status' => 'error']);
-        };
-        return "hello world - created task";
-    }
-
     public function store(Request $request)
     {
         $task = Task::make($request->only([
@@ -206,57 +142,9 @@ class TaskController extends Controller
 
         $task->save();
 
-        // save task to google drive
-        $client = new Client();
-        $client->setApplicationName('reteer-app');
-        $client->setScopes('https://www.googleapis.com/auth/spreadsheets');
-        $client->setAuthConfig(base_path('credentials.json'));
-        $task->action = 'create';
-        $spreadsheet = new Sheets($client);
-        $spreadsheetValues = $spreadsheet->spreadsheets_values;
+//        $task->action = 'create';
 
-        $values_array = [
-            $task->start_date,
-            $task->start_time,
-            $task->client_address,
-            $task->task_description,
-            $task->destination,
-            $task->volunteer_id,
-            $task->status,
-            $task->contact_information,
-            $task->sheets_id,
-            $task->author,
-        ];
-        $value_array = Arr::map($values_array, function ($value) {
-            return $value ?? '';
-        });
-        $values = new ValueRange(['values' => [
-            $value_array,
-
-        ]]);
-
-        $options = ['valueInputOption' => 'RAW'];
-
-        $spreadsheetValues->append(config('sheets.id'), config('sheets.names.tasks'), $values, $options);
-        //$spreadsheetValues->append(config('sheets.id'), config('sheets.names.backup'), $values, $options);
-
-        // save log entry
-        $values_string = '["' . implode(',"', $value_array) . ']';
-        // dump($values_string);
-        $log_values = new ValueRange(['values' => [
-            [
-                'web app',
-                'Task Tracking for Sign Up',
-                now(),
-                'PLACEHOLDER',
-                $values_string,
-                $task->sheets_id,
-            ],
-        ]]);
-
-        $spreadsheetValues->append(config('sheets.id'), config('sheets.names.log'), $log_values, $options);
-
-        return redirect()->route('tasks.confirmCreate', $task);
+        return redirect()->route('tasks.show', $task);
     }
 
     public function confirmStore(Request $request, Task $task)
